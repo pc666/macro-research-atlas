@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="宏布局研究图谱：按方法构成组织文献，以原文章节和实验条件核对技术关系。">
+<meta name="color-scheme" content="light">
+<title>宏布局研究图谱 · Macro Placement Research Atlas</title>
+<style>__STYLES__</style>
+</head>
+<body>
+<a href="#main" class="skip-link">跳至正文</a>
+<header class="masthead">
+  <div class="top-inner">
+    <a class="brand" href="#main" aria-label="宏布局研究图谱首页"><span class="brand-symbol" aria-hidden="true"><i></i><i></i><i></i></span><span>Macro Placement<span class="brand-sub">RESEARCH ATLAS</span></span></a>
+    <nav aria-label="主导航"><a href="#taxonomy">技术分类</a><a href="#methods">方法构成</a><a href="#relations">文献关系</a><a href="#comparison">原文对读</a><a href="#library">文献库</a><a href="#revision">修订记录</a></nav>
+    <a class="source-link" href="https://github.com/pc666/macro-research-atlas" target="_blank" rel="noopener noreferrer">数据与源码 <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+<main id="main">
+  <section class="hero page-width" aria-labelledby="page-title">
+    <div class="hero-main"><div class="eyebrow">PHYSICAL DESIGN / LITERATURE & METHODS</div><h1 id="page-title">宏布局研究图谱</h1><p class="hero-description">从问题定义、方法构成与实验条件出发，<br class="desktop-break">建立可以逐条追溯的文献关系。</p><div class="hero-actions"><a class="button primary" href="#methods">查看方法构成 <span aria-hidden="true">↓</span></a><a class="button" href="#comparison">TVLSI 2021 × DATE 2025</a></div></div>
+    <aside class="edition"><div class="edition-top"><span class="edition-label">REVISED EDITION</span><span class="edition-number">03</span></div><dl><div><dt>核对日期</dt><dd id="review-date"></dd></div><div><dt>组织单位</dt><dd>具体出版物与方法组件</dd></div><div><dt>证据要求</dt><dd>来源、定位、支持的结论</dd></div></dl><p>会议版、期刊版与预印本分别标识。方法说明以实际核对的版本为准。</p></aside>
+  </section>
+  <div class="page-width"><div class="coverage" id="coverage" aria-label="核查范围"></div><p class="coverage-note" id="coverage-note"></p></div>
+
+  <section id="taxonomy" class="page-width section" aria-labelledby="taxonomy-title">
+    <div class="section-heading"><div><div class="eyebrow">01 / ANALYTICAL FRAMEWORK</div><h2 id="taxonomy-title">按组件分析方法</h2></div><p>六个分析维度可以同时出现在一篇论文中。<br>它们用于拆解方法，不用于把整篇论文强行分入单一门类。</p></div>
+    <div class="axis-grid" id="axes"></div>
+    <div class="definition-note"><strong>分类的基本单位</strong><p>“主任务”描述工作解决什么问题；“方法组件”描述它如何实现。RUDY 的组件角色是布线需求估计，Corner Stitching 的组件角色是几何空间管理；QP、LP 则应结合具体优化变量、目标与约束解释。</p></div>
+  </section>
+
+  <section id="methods" class="page-width section" aria-labelledby="methods-title">
+    <div class="section-heading"><div><div class="eyebrow">02 / METHOD COMPOSITION</div><h2 id="methods-title">方法构成对照</h2></div><p>点击文献查看完整题录、原文定位与适用范围。<br>本表比较方法构成，不给出跨实验条件的性能排名。</p></div>
+    <div class="toolbar matrix-toolbar"><div class="segmented" id="matrix-tabs" role="group" aria-label="方法表主题"></div><span class="quiet">可横向滚动查看各组件</span></div>
+    <div class="table-frame" tabindex="0" role="region" aria-label="方法构成对照表，可横向滚动"><table class="method-table"><thead><tr><th scope="col">工作 / 主任务</th><th scope="col">几何表示</th><th scope="col">连接关系</th><th scope="col">区域分配</th><th scope="col">优化与搜索</th><th scope="col">几何合法化</th><th scope="col">评价与验证</th></tr></thead><tbody id="matrix-body"></tbody></table></div>
+    <p class="table-note">“—”表示该组件不适用或本次证据未覆盖，不表示方法不具备相关能力。完整证据范围见各条目。</p>
+  </section>
+
+  <section id="relations" class="page-width section" aria-labelledby="relations-title">
+    <div class="section-heading"><div><div class="eyebrow">03 / DOCUMENTED RELATIONSHIPS</div><h2 id="relations-title">有原文依据的文献关系</h2></div><p>图中只绘制明确的方法采用与版本扩展。<br>实验比较和引用关系单独记录，不解释为技术继承。</p></div>
+    <div class="relation-definitions"><div><span class="relation-key adopt"></span><strong>方法采用</strong><span>指出具体被采用的组件</span></div><div><span class="relation-key extend"></span><strong>版本扩展</strong><span>原文明确声明前后版本</span></div><div><span class="relation-key compare"></span><strong>实验比较</strong><span>注明指标、表格与配置</span></div><div><span class="relation-key cite"></span><strong>引用关系</strong><span>仅支持引用关系</span></div></div>
+    <div class="graph-controls"><label for="graph-focus">聚焦文献</label><select id="graph-focus"></select><span class="quiet" id="graph-explanation"></span></div>
+    <div class="graph-frame" id="graph-frame" role="region" aria-label="文献关系图"></div>
+    <div class="relationship-table-head"><h3>逐条证据</h3><div class="filters-inline"><label for="relation-scope" class="sr-only">关系范围</label><select id="relation-scope"><option value="focus">当前文献的全部关系</option value="all">全部已核对关系</option></select><label for="relation-type" class="sr-only">关系类型</label><select id="relation-type"><option value="all">全部关系类型</option><option value="adopts">方法采用</option><option value="extends">版本扩展</option><option value="compares">实验比较</option><option value="cites">引用关系</option></select></div></div>
+    <div id="relation-list" class="relation-list"></div>
+  </section>
+
+  <section id="comparison" class="comparison-section" aria-labelledby="comparison-title"><div class="page-width">
+    <div class="section-heading"><div><div class="eyebrow">04 / CLOSE READING</div><h2 id="comparison-title">两篇原文的逐阶段对读</h2></div><p>Dataflow-aware SE，TVLSI 2021<br>Pre-trained RL-guided MCTS，DATE 2025</p></div>
+    <p class="section-intro">把初始化、分组、区域分配、坐标优化与合法化分开，才能判断算法之间实际共享了什么，以及实验结果支持了什么。</p>
+    <div class="paper-pair-head"><button data-open="MC070"><span class="pair-year">2021</span><span><strong>Dataflow-aware SE</strong><small>TVLSI · 分组、递归分区、Corner Stitching 与 SE</small></span><span aria-hidden="true">↗</span></button><button data-open="MCTS25"><span class="pair-year">2025</span><span><strong>RL-guided MCTS</strong><small>DATE · 网格分配、两阶段 QP 与 SP + LP</small></span><span aria-hidden="true">↗</span></button></div>
+    <div class="table-frame"><table class="pair-table"><thead><tr><th scope="col">分析阶段</th><th scope="col">TVLSI 2021</th><th scope="col">DATE 2025</th></tr></thead><tbody id="pair-body"></tbody></table></div>
+    <div class="technical-note" id="qp-note"></div>
+    <details class="pipeline-details"><summary>查看两篇论文的完整阶段分解</summary><div class="pipeline-columns" id="pipeline-columns"></div></details>
+    <div class="experiment-heading"><h3>实验比较的可比范围</h3><p>以下保留论文报告的数值及配置差异，不把线长结果外推为拥塞或完整后端 PPA 结论。</p></div>
+    <div class="table-frame"><table class="experiment-table"><thead id="experiment-head"></thead><tbody id="experiment-body"></tbody></table></div>
+    <div class="experiment-notes" id="experiment-notes"></div>
+    <div class="comparison-sources" id="comparison-sources"></div>
+  </div></section>
+
+  <section id="library" class="page-width section" aria-labelledby="library-title">
+    <div class="section-heading"><div><div class="eyebrow">05 / RESEARCH INDEX</div><h2 id="library-title">文献库</h2></div><p>每条已核查记录标明全文、摘要或题录依据。<br>尚未重新核对的旧记录保留为检索线索。</p></div>
+    <div class="library-tabs" role="tablist" aria-label="文献核查状态"><button id="tab-reviewed" role="tab" aria-selected="true" aria-controls="library-panel" data-library="reviewed">本次核查 <span id="count-reviewed"></span></button><button id="tab-pending" role="tab" aria-selected="false" aria-controls="library-panel" data-library="pending" tabindex="-1">待核查索引 <span id="count-pending"></span></button></div>
+    <div id="library-panel" role="tabpanel" aria-labelledby="tab-reviewed">
+      <div class="search-toolbar"><div class="search-field"><span aria-hidden="true">⌕</span><label class="sr-only" for="paper-search">搜索标题、作者、方法或 DOI</label><input id="paper-search" type="search" placeholder="搜索标题、作者、方法或 DOI" autocomplete="off"></div><label class="sr-only" for="role-filter">主任务</label><select id="role-filter"><option value="all">全部主任务</option></select><label class="sr-only" for="access-filter">核查依据</label><select id="access-filter"><option value="all">全部核查依据</option><option value="fulltext">原文方法核查</option><option value="abstract">官方摘要核查</option><option value="metadata">题录核查</option><option value="documentation">官方文档核查</option></select><label class="sr-only" for="year-sort">年份排序</label><select id="year-sort"><option value="desc">年份：由新到旧</option><option value="asc">年份：由旧到新</option></select></div>
+      <div class="library-state"><p id="library-result" aria-live="polite"></p><button class="text-button" id="reset-filters">重置筛选</button></div>
+      <div class="pending-note" id="pending-note" hidden>此处保留旧版的题名与来源线索。原有的技术分类、方法描述、证据等级及谱系连线已撤出；未经本次核查的题录和发表状态仍可能需要修正。</div>
+      <div id="paper-list" class="paper-list"></div>
+      <div class="pagination"><button class="button" id="page-prev">上一页</button><span id="page-info"></span><button class="button" id="page-next">下一页</button></div>
+    </div>
+  </section>
+
+  <section id="revision" class="page-width section revision-section" aria-labelledby="revision-title"><div class="section-heading"><div><div class="eyebrow">06 / EDITORIAL RECORD</div><h2 id="revision-title">本次修订与核查规范</h2></div><button class="button" id="download-data">下载核查数据 <span aria-hidden="true">↓</span></button></div><div class="revision-grid"><div id="revision-list"></div><aside class="standards"><h3>收录与证据规范</h3><ol><li>一个记录对应一个明确的出版版本。</li><li>作者、标题、年份与 DOI 必须相互匹配。</li><li>每条方法关系写出组件、原文位置与支持的结论。</li><li>摘要级证据只支持摘要明确说明的内容。</li><li>性能结论同时记录 benchmark、指标和后端流程。</li><li>未核实的内容标明范围，不以模板文字补全。</li></ol><p>本页是持续核查的研究索引。核查过题录、读过方法章节与完成独立复现，是不同层面的工作；本站不将文献阅读标为算法复现。</p></aside></div></section>
+</main>
+<footer><div class="page-width footer-inner"><div><strong>Macro Placement Research Atlas</strong><p>具体方法 · 明确版本 · 可定位证据</p></div><div><a href="https://github.com/pc666/macro-research-atlas" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="data/atlas.json" target="_blank" rel="noopener noreferrer">结构化数据 ↗</a><a href="#main">返回顶部 ↑</a></div></div></footer>
+<dialog id="paper-dialog" aria-labelledby="dialog-title"><div class="dialog-shell"><div class="dialog-tools"><span id="dialog-kicker"></span><button id="close-dialog" class="close-button" aria-label="关闭文献详情">×</button></div><div id="dialog-content"></div></div></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script id="atlas-data" type="application/json">__DATA__</script>
+<script>__APP__</script>
+</body></html>
