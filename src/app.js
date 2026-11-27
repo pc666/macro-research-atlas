@@ -19,6 +19,41 @@ const pageSize=12;
 const readButton=id=>`<button class="paper-read ${readState[id]?'is-read':''}" data-read="${esc(id)}" aria-pressed="${!!readState[id]}">${readState[id]?'✓ 已阅读':'标记已读'}</button>`;
 const headingNames={"基础表示与早期布局流程":"Foundations and Early Placement Flows","现代 Macro Placement 的三条交汇主线":"Modern Macro Placement","线长建模与估计":"Wirelength Modeling","拥塞模型、布线与评估":"Congestion, Routing and Evaluation","多端网展开与求解模型":"Multi-pin Net Models","几何线长估计":"Geometric Wirelength Estimation","连续优化的线长近似":"Smooth Wirelength Models","宏布局中的专门建模与实际评价":"Macro-specific Models and Routed Metrics","几何表示":"Geometric Representation","连接关系建模":"Connectivity Modeling","区域与面积分配":"Region and Area Allocation","优化与搜索":"Optimization and Search","几何合法化":"Legalization","线长建模":"Wirelength Modeling","评价与验证":"Evaluation and Validation"};
 const headingName=s=>headingNames[s]||s;
+
+const overviewTracks=[{"title":["Dataflow","and Hierarchy"],"sub":"Connectivity · clustering","color":"#326b8b","fill":"#e9f1f5","y":111,"nodes":[{"id":"MC061","lines":["Hierarchy-aware","Prototype"],"offset":-25},{"id":"MC063","lines":["HiDaP"],"offset":25},{"id":"MC070","lines":["Dataflow-aware","SE"]},{"id":"MC083","lines":["RTL-MP"]},{"id":"MC097","lines":["Hier-RTLMP"],"offset":-25},{"id":"MC106","lines":["Hidden","Connections"],"offset":25},{"id":"TIMING26","lines":["Timing-driven","Hierarchical MP"]}]},{"title":["Analytical and","Incremental"],"sub":"GP · refinement","color":"#357467","fill":"#e9f2ed","y":238,"nodes":[{"id":"MC059","lines":["RePlAce"],"offset":-25},{"id":"DREAMPLACE19","lines":["DREAMPlace"],"offset":25},{"id":"MC071","lines":["DREAMPlace","TCAD"]},{"id":"MC086","lines":["AutoDMP"]},{"id":"MC099","lines":["IncreMacro"],"offset":0},{"id":"MC118","lines":["IncreMacro","TCAD"]}]},{"title":["Discrete Search","and Learning"],"sub":"SA · SE · RL · EA","color":"#76618f","fill":"#f0edf5","y":365,"nodes":[{"id":"MC051","lines":["SE Macro","Placement"],"offset":-25},{"id":"MC060","lines":["CNN-guided SA"],"offset":25},{"id":"MC069","lines":["Circuit Training"]},{"id":"MC082","lines":["MaskPlace"]},{"id":"MC103","lines":["Macro Regulator"]},{"id":"MCTS25","lines":["RL-guided","MCTS"],"offset":-25},{"id":"MC123","lines":["Re²MaP"],"offset":25}]}];
+function renderOverview(){
+ const el=$('overview-map'); if(!el)return;
+ const W=1450,H=434,start=238,step=137,nw=124,nh=43;
+ const xFor=year=>start+(year-2019)*step;
+ const points={};
+ let svg='<svg class="overview-svg" viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Three research directions with publication years"><defs><marker id="overview-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#56645b"/></marker></defs>';
+ for(let year=2019;year<=2026;year++){const x=xFor(year);svg+='<line class="overview-year-guide" x1="'+x+'" y1="40" x2="'+x+'" y2="412"/><text class="overview-year" x="'+x+'" y="28" text-anchor="middle">'+year+'</text>';}
+ for(const t of overviewTracks){
+   const y=t.y;
+   const curve='M166 '+y+' H'+(xFor(2026)+64)+' C1344 '+y+' 1333 238 1380 238';
+   svg+='<path d="'+curve+'" fill="none" stroke="'+t.color+'" stroke-opacity=".15" stroke-width="20" stroke-linecap="round"/><path d="'+curve+'" fill="none" stroke="'+t.color+'" stroke-opacity=".56" stroke-width="2" stroke-linecap="round"/>';
+   svg+='<text class="overview-track-title" x="17" y="'+(y-20)+'" fill="'+t.color+'">'+t.title.map((s,i)=>'<tspan x="17" dy="'+(i?18:0)+'">'+esc(s)+'</tspan>').join('')+'</text><text class="overview-track-sub" x="17" y="'+(y+16)+'">'+esc(t.sub)+'</text>';
+   for(const n of t.nodes){const p=P[n.id],x=xFor(p.year),cy=y+(n.offset||0);points[n.id]={x,cy,n,t};}
+ }
+ // Only show existing, source-located adoption and extension relationships. No edges inferred from shared tracks.
+ const documented=A.relations.filter(r=>points[r.from]&&points[r.to]&&(r.type==='adopts'||r.type==='extends'));
+ svg+='<g class="overview-evidence-links" visibility="'+($('overview-evidence').checked?'visible':'hidden')+'">';
+ for(const r of documented){const a=points[r.from],b=points[r.to];let x1=a.x+nw/2,y1=a.cy,x2=b.x-nw/2,y2=b.cy,delta=Math.max(30,(x2-x1)*.43),path;
+   if(a.x===b.x){const dir=b.cy>a.cy?1:-1;const ax=a.x+nw/2,by=b.cy-dir*nh/2;path='M'+ax+' '+a.cy+' C'+(ax+17)+' '+a.cy+' '+(ax+17)+' '+by+' '+(b.x+nw/2)+' '+by;}
+   else path='M'+x1+' '+y1+' C'+(x1+delta)+' '+y1+' '+(x2-delta)+' '+y2+' '+x2+' '+y2;
+   svg+='<path class="overview-evidence-edge" d="'+path+'" fill="none" marker-end="url(#overview-arrow)"><title>'+esc(P[r.from].short+' → '+P[r.to].short+' · '+r.component+' · '+r.locator)+'</title></path>';
+ }
+ svg+='</g>';
+ for(const [id,{x,cy,n,t}] of Object.entries(points)){
+   const p=P[id];
+   if(cy!==t.y)svg+='<path d="M'+x+' '+t.y+' V'+cy+'" fill="none" stroke="'+t.color+'" stroke-opacity=".55" stroke-width="1.5"/>';
+   const lineCount=n.lines.length,firstY=cy-(lineCount-1)*7+4;
+   svg+='<g class="overview-node graph-node" data-open="'+esc(id)+'" role="button" tabindex="0" aria-label="'+esc(p.title)+'"><title>'+esc(p.title+' · '+p.venue)+'</title><rect x="'+(x-nw/2)+'" y="'+(cy-nh/2)+'" width="'+nw+'" height="'+nh+'" rx="6" style="fill:'+t.fill+';stroke:'+t.color+';stroke-opacity:.65"/><text text-anchor="middle" x="'+x+'" y="'+firstY+'" fill="'+t.color+'" class="overview-node-label">'+n.lines.map((line,i)=>'<tspan x="'+x+'" dy="'+(i?14:0)+'">'+esc(line)+'</tspan>').join('')+'</text></g>';
+ }
+ svg+='<circle cx="1380" cy="238" r="6" fill="#455e50"/><text class="overview-common" x="1374" y="198" text-anchor="middle"><tspan x="1374" dy="0">Shared</tspan><tspan x="1374" dy="14">objectives</tspan></text><text class="overview-common-sub" text-anchor="middle" x="1374" y="266"><tspan x="1374">Wirelength</tspan><tspan x="1374" dy="13">Routability</tspan><tspan x="1374" dy="13">Timing</tspan></text></svg>';
+ el.innerHTML=svg;
+}
+
 function renderTimeline(){
  const container=$('history-atlas');
  if(!container)return;
@@ -49,7 +84,7 @@ function initial(){
  $('graph-focus').innerHTML=A.papers.filter(p=>relIDs.has(p.id)).sort((a,b)=>(b.year||9999)-(a.year||9999)||a.id.localeCompare(b.id)).map(p=>`<option value="${esc(p.id)}" ${p.id===state.graph?'selected':''}>${p.year||'文档'} · ${esc(p.short)}</option>`).join('');
  $('role-filter').insertAdjacentHTML('beforeend',Object.entries(A.roles).map(([k,v])=>`<option value="${esc(k)}">${esc(v)}</option>`).join(''));
  $('count-reviewed').textContent=A.papers.length;$('count-pending').textContent=A.pending.length;
- renderTimeline();renderWirelength();renderMatrix();renderGraph();renderRelations();renderComparison();renderLibrary();
+ renderOverview();renderTimeline();renderWirelength();renderMatrix();renderGraph();renderRelations();renderComparison();renderLibrary();
 }
 function renderMatrix(){
  const g=A.matrixGroups.find(g=>g.id===state.matrix);
@@ -135,6 +170,7 @@ document.addEventListener('click',e=>{const o=e.target.closest('[data-open]');if
 document.addEventListener('keydown',e=>{const n=e.target.closest('.graph-node');if(n&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openPaper(n.dataset.open);}const tab=e.target.closest('[data-library]');if(tab&&(e.key==='ArrowLeft'||e.key==='ArrowRight')){e.preventDefault();const mode=state.mode==='reviewed'?'pending':'reviewed';switchLibrary(mode);$('tab-'+mode).focus();}});
 $('close-dialog').addEventListener('click',closePaper);
 $('paper-dialog').addEventListener('click',e=>{if(e.target===$('paper-dialog')){const r=$('paper-dialog').getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closePaper();}});
+$('overview-evidence').addEventListener('change',e=>{const layer=$('overview-map').querySelector('.overview-evidence-links');if(layer)layer.setAttribute('visibility',e.target.checked?'visible':'hidden');});
 $('graph-focus').addEventListener('change',e=>{state.graph=e.target.value;renderGraph();renderRelations();});
 ['relation-scope','relation-type'].forEach(id=>$(id).addEventListener('change',renderRelations));
 $('paper-search').addEventListener('input',e=>{state.query=e.target.value;state.page=1;renderLibrary();});
