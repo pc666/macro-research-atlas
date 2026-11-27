@@ -17,6 +17,8 @@ let state={matrix:A.defaults.matrix,graph:A.defaults.graph,mode:'reviewed',page:
 let lastFocus=null;
 const pageSize=12;
 const readButton=id=>`<button class="paper-read ${readState[id]?'is-read':''}" data-read="${esc(id)}" aria-pressed="${!!readState[id]}">${readState[id]?'✓ 已阅读':'标记已读'}</button>`;
+const headingNames={"基础表示与早期布局流程":"Foundations and Early Placement Flows","现代 Macro Placement 的三条交汇主线":"Modern Macro Placement","线长建模与估计":"Wirelength Modeling","拥塞模型、布线与评估":"Congestion, Routing and Evaluation","多端网展开与求解模型":"Multi-pin Net Models","几何线长估计":"Geometric Wirelength Estimation","连续优化的线长近似":"Smooth Wirelength Models","宏布局中的专门建模与实际评价":"Macro-specific Models and Routed Metrics","几何表示":"Geometric Representation","连接关系建模":"Connectivity Modeling","区域与面积分配":"Region and Area Allocation","优化与搜索":"Optimization and Search","几何合法化":"Legalization","线长建模":"Wirelength Modeling","评价与验证":"Evaluation and Validation"};
+const headingName=s=>headingNames[s]||s;
 function renderTimeline(){
  const container=$('history-atlas');
  if(!container)return;
@@ -30,19 +32,18 @@ function renderTimeline(){
    }).join('')+'</tr>').join('');
    const edges=A.relations.filter(r=>nodes.has(r.from)&&nodes.has(r.to)&&(r.type==='adopts'||r.type==='extends'));
    const links=edges.length?'<details class="history-evidence"><summary>本区段已核实的方法采用或版本扩展（'+edges.length+' 条）</summary><div>'+edges.map(r=>'<div class="history-edge">'+paperButton(r.from)+'<span class="history-arrow"> → </span>'+paperButton(r.to)+'<span class="history-component">'+esc(r.component)+' · '+esc(typeNames[r.type])+'</span><a href="'+safeURL(r.url)+'" target="_blank" rel="noopener noreferrer">'+esc(r.locator)+'</a></div>').join('')+'</div></details>':'';
-   return '<article class="history-block"><div class="history-heading"><div><div class="eyebrow">'+esc(group.range)+'</div><h3>'+esc(group.title)+'</h3></div></div><p class="history-note">'+esc(group.note)+'</p><div class="history-scroll" tabindex="0" role="region" aria-label="'+esc(group.title)+' 年代对照表"><table class="history-table" style="min-width:'+String(155+group.periods.length*142)+'px"><thead><tr>'+headers+'</tr></thead><tbody>'+rows+'</tbody></table></div>'+links+'</article>';
+   return '<article class="history-block"><div class="history-heading"><div><div class="eyebrow">'+esc(group.range)+'</div><h3>'+esc(headingName(group.title))+'</h3></div></div><p class="history-note">'+esc(group.note)+'</p><div class="history-scroll" tabindex="0" role="region" aria-label="'+esc(group.title)+' 年代对照表"><table class="history-table" style="min-width:'+String(155+group.periods.length*142)+'px"><thead><tr>'+headers+'</tr></thead><tbody>'+rows+'</tbody></table></div>'+links+'</article>';
  }).join('');
 }
 function renderWirelength(){
  const el=$('wirelength-models');if(!el)return;
- el.innerHTML=A.wirelengthModels.map(g=>'<article class="wire-model-group"><h3>'+esc(g.category)+'</h3><p class="history-note">'+esc(g.description)+'</p><div class="table-frame"><table class="wire-model-table"><thead><tr><th scope="col">模型</th><th scope="col">数学形式 / 定义</th><th scope="col">用途</th><th scope="col">限制及文献</th></tr></thead><tbody>'+g.models.map(m=>'<tr><th scope="row">'+esc(m.name)+'</th><td class="wire-formula">'+esc(m.formula)+'</td><td>'+esc(m.purpose)+'</td><td>'+esc(m.limit)+'<div class="wire-refs">'+m.papers.map(id=>paperButton(id)).join('')+'</div></td></tr>').join('')+'</tbody></table></div></article>').join('');
+ el.innerHTML=A.wirelengthModels.map(g=>'<article class="wire-model-group"><h3>'+esc(headingName(g.category))+'</h3><p class="history-note">'+esc(g.description)+'</p><div class="table-frame"><table class="wire-model-table"><thead><tr><th scope="col">模型</th><th scope="col">数学形式 / 定义</th><th scope="col">用途</th><th scope="col">限制及文献</th></tr></thead><tbody>'+g.models.map(m=>'<tr><th scope="row">'+esc(m.name)+'</th><td class="wire-formula">'+esc(m.formula)+'</td><td>'+esc(m.purpose)+'</td><td>'+esc(m.limit)+'<div class="wire-refs">'+m.papers.map(id=>paperButton(id)).join('')+'</div></td></tr>').join('')+'</tbody></table></div></article>').join('');
 }
 function initial(){
- $('review-date').textContent=A.meta.reviewDate;
  const full=A.papers.filter(p=>p.access==='fulltext').length;
  $('coverage').innerHTML=[[A.papers.length,'本次核查记录'],[full,'原文方法核查'],[A.relations.length,'有定位的关系'],[A.pending.length,'待核查索引']].map(([n,t])=>`<div class="stat"><strong>${n}</strong><span>${t}</span></div>`).join('');
  $('coverage-note').textContent=`核查范围：${full} 条原文方法记录、${A.papers.filter(p=>p.access==='abstract').length} 条摘要记录、${A.papers.filter(p=>p.access==='metadata').length} 条题录记录、${A.papers.filter(p=>p.access==='documentation').length} 条官方文档。已核查记录包括基础方法及分开的出版版本；其余 ${A.pending.length} 条旧索引保留为检索线索。`;
- $('axes').innerHTML=A.axes.map(a=>`<article class="axis"><div class="axis-top"><span class="axis-code">${esc(a.number)}</span><h3>${esc(a.label)}</h3></div><p>${esc(a.definition)}</p><div class="axis-examples">${a.examples.map(e=>`<button class="chip" data-open="${esc(e.paper)}">${esc(e.label)}</button>`).join('')}</div><div class="axis-boundary">${esc(a.boundary)}</div></article>`).join('');
+ $('axes').innerHTML=A.axes.map(a=>`<article class="axis"><div class="axis-top"><span class="axis-code">${esc(a.number)}</span><h3>${esc(headingName(a.label))}</h3></div><p>${esc(a.definition)}</p><div class="axis-examples">${a.examples.map(e=>`<button class="chip" data-open="${esc(e.paper)}">${esc(e.label)}</button>`).join('')}</div><div class="axis-boundary">${esc(a.boundary)}</div></article>`).join('');
  $('matrix-tabs').innerHTML=A.matrixGroups.map(g=>`<button data-matrix="${esc(g.id)}" aria-pressed="${g.id===state.matrix}">${esc(g.label)}</button>`).join('');
  const relIDs=new Set(A.relations.flatMap(r=>[r.from,r.to]));
  $('graph-focus').innerHTML=A.papers.filter(p=>relIDs.has(p.id)).sort((a,b)=>(b.year||9999)-(a.year||9999)||a.id.localeCompare(b.id)).map(p=>`<option value="${esc(p.id)}" ${p.id===state.graph?'selected':''}>${p.year||'文档'} · ${esc(p.short)}</option>`).join('');
@@ -84,7 +85,7 @@ function stepHTML(s,i){return `<div class="pipeline-step"><span class="step-no">
 function renderComparison(){
  const c=A.comparison,t=c.industrialTable;
  $('pair-body').innerHTML=c.rows.map(r=>`<tr><td>${esc(r.aspect)}</td><td>${esc(r.tvlsi)}<span class="source-locator">${esc(r.locators[0])}</span></td><td>${esc(r.date)}<span class="source-locator">${esc(r.locators[1])}</span></td></tr>`).join('');
- $('qp-note').innerHTML=`<h3>GP、QP 与 LP 的阶段分工</h3><p>${esc(c.qpExplanation)}</p><p>${esc(c.qpSubprocessNote)}</p><span class="source-locator">DATE 2025 §II-A–C；§III-E；§IV-B；Algorithm 1</span>`;
+ $('qp-note').innerHTML=`<h3>GP, QP and LP</h3><p>${esc(c.qpExplanation)}</p><p>${esc(c.qpSubprocessNote)}</p><span class="source-locator">DATE 2025 §II-A–C；§III-E；§IV-B；Algorithm 1</span>`;
  $('pipeline-columns').innerHTML=c.pipelines.map(p=>`<div class="pipeline-column"><h4>${esc(p.label)}</h4>${p.steps.map((s,i)=>(p.id==='MCTS25'&&i===3?'<div class="technical-note" style="margin:0 0 16px;padding:10px 13px"><p>以下四步为完整分配的评估子流程，训练 episode 和 MCTS 终局均会调用。</p></div>':'')+stepHTML(s,i)).join('')}</div>`).join('');
  $('experiment-head').innerHTML='<tr><th scope="col">工业案例</th><th scope="col">SE baseline [26]</th><th scope="col">DREAMPlace [25]</th><th scope="col">DATE 2025</th></tr>';
  $('experiment-body').innerHTML=t.rows.map(row=>`<tr><td>${esc(row[0])}</td>${row.slice(1).map(n=>`<td>${Number(n).toFixed(2)}</td>`).join('')}</tr>`).join('')+'<tr><td>Nor.（原表）</td><td>1.05</td><td>1.23</td><td>1.00</td></tr>';
@@ -114,7 +115,7 @@ function dialogHTML(p){
  let html=`<h2 class="dialog-title" id="dialog-title">${esc(p.title)}</h2><p class="dialog-authors">${esc(p.authors)}</p><p class="dialog-biblio">${esc(p.venue)}${p.doi?' · DOI: '+esc(p.doi):''}</p><div class="paper-flags">${badge(p)}${p.role?`<span class="badge role">${esc(A.roles[p.role])}</span>`:''}</div><div class="dialog-links">${ext(p.url,pending?'原索引来源':'原文 / 官方来源','button')}${p.doi?ext('https://doi.org/'+p.doi,'DOI','button'):''}${!pending?`<button class="button" data-focus="${esc(p.id)}">查看关系</button>`:''}${readButton(p.id)}</div>`;
  if(pending)return html+'<section class="dialog-section"><h3>待核查记录</h3><p>本条保留旧版的题名、作者、年份和来源线索，尚未完成本次重新核查。原有的方法说明、分类与谱系结论不继续展示。</p><p>此处的发表状态和题录仍应以原始出版来源复核。</p></section>';
  if(p.version)html+=`<p class="dialog-biblio">${esc(p.version)}</p>`;
- if(p.publicationStatus){const s=p.publicationStatus;html+=`<div class="publication-status"><strong>后续出版状态：</strong>${esc(s.venue)}，${esc(s.year)}，${esc(s.status)}。${ext('https://doi.org/'+s.doi,s.doi)}<br>${esc(s.note)}<br>状态核对：${esc(s.checked)}</div>`;}
+ if(p.publicationStatus){const s=p.publicationStatus;html+=`<div class="publication-status"><strong>后续出版状态：</strong>${esc(s.venue)}，${esc(s.year)}，${esc(s.status)}。${ext('https://doi.org/'+s.doi,s.doi)}<br>${esc(s.note)}</div>`;}
  html+=`<section class="dialog-section"><h3>研究对象</h3><p>${esc(p.scope)}</p></section><section class="dialog-section"><h3>方法要点</h3><p>${esc(p.method)}</p></section><section class="dialog-section"><h3>方法构成</h3><dl class="component-list">${A.axes.map(a=>`<dt>${esc(a.label)}</dt><dd>${esc(p.components[a.id]||'—')}</dd>`).join('')}${Object.entries(p.extraComponents||{}).map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl></section>`;
  if(p.limits?.length)html+=`<section class="dialog-section"><h3>适用范围与证据边界</h3><ul>${p.limits.map(l=>`<li>${esc(l)}</li>`).join('')}</ul></section>`;
  if(p.bibliographicNote)html+=`<section class="dialog-section"><h3>版本说明</h3><p>${esc(p.bibliographicNote)}</p></section>`;
