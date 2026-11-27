@@ -1,7 +1,7 @@
 {
   "meta": {
     "schemaVersion": 3,
-    "revision": "3.1",
+    "revision": "3.2",
     "reviewDate": "2026-11-27",
     "sourceCommit": "b489c86cc07ca7847c29ce91d0cdc764915c398b",
     "sourceCorpusCount": 128,
@@ -14,7 +14,9 @@
     "evaluation": "需求估计 / 候选评价",
     "routing": "全局布线",
     "implementation": "工程实现文档",
-    "assessment": "评估基准与实验复核"
+    "assessment": "评估基准与实验复核",
+    "model": "线长估计与互连建模",
+    "patent": "技术来源（专利）"
   },
   "axes": [
     {
@@ -139,10 +141,39 @@
       ]
     },
     {
-      "id": "evaluation",
+      "id": "wirelength",
       "number": "06",
+      "label": "线长建模",
+      "definition": "分别记录多端网的连接展开、几何线长估计、连续优化近似，以及它们在具体优化阶段中的用途。",
+      "boundary": "HPWL、RMST、RSMT 是不同的几何估计；LSE/WA 近似 HPWL；Clique/Star/B2B 是多端网建模方法。均不直接等同实际布线线长。",
+      "examples": [
+        {
+          "label": "HPWL / LSE",
+          "paper": "NTUPLACE3"
+        },
+        {
+          "label": "Clique / Star",
+          "paper": "FASTPLACE05"
+        },
+        {
+          "label": "Bound2Bound",
+          "paper": "KRAFTWERK08"
+        },
+        {
+          "label": "FLUTE / RSMT",
+          "paper": "FLUTE08"
+        },
+        {
+          "label": "WA",
+          "paper": "WA13"
+        }
+      ]
+    },
+    {
+      "id": "evaluation",
+      "number": "07",
       "label": "评价与验证",
-      "definition": "区分优化目标、快速代理、候选排序与后端布线及 PPA 结果。",
+      "definition": "记录布线拥塞预测、密度、候选评价及后端实验指标；线长估计模型见独立组件，后端线长仍在评价阶段记录。",
       "boundary": "需求估计、布线 overflow 和 DRC 不是同一指标。",
       "examples": [
         {
@@ -182,7 +213,8 @@
         "allocation": "—",
         "search": "—",
         "legalization": "—（提供空间查询与局部更新操作）",
-        "evaluation": "—"
+        "evaluation": "—",
+        "wirelength": "—"
       },
       "bibliographicNote": "1983 Berkeley 技术报告与1984期刊文献分别记录；本条年份和卷期依据期刊首页及出版方登记元数据。Stanford个人主页存在卷期误写，未采用。",
       "evidence": [
@@ -230,7 +262,8 @@
         "allocation": "—",
         "search": "会议摘要提及组合解空间；详细算法以已核查的1996期刊版为准",
         "legalization": "—",
-        "evaluation": "最小包围矩形面积"
+        "evaluation": "最小包围矩形面积",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -277,7 +310,8 @@
         "allocation": "—",
         "search": "模拟退火",
         "legalization": "由序列关系构造约束并解码为packing",
-        "evaluation": "包围矩形面积；应用实验加入布线面积估计"
+        "evaluation": "包围矩形面积；应用实验加入布线面积估计",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -318,7 +352,8 @@
         "allocation": "—",
         "search": "模拟退火；旋转、删除/插入、交换等操作",
         "legalization": "DFS 解码与 contour 更新",
-        "evaluation": "本文实验聚焦面积优化"
+        "evaluation": "本文实验聚焦面积优化",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -360,7 +395,8 @@
         "allocation": "—",
         "search": "模拟退火；图关系扰动",
         "legalization": "增广闭包图上的最长路径",
-        "evaluation": "面积及线长"
+        "evaluation": "面积及线长",
+        "wirelength": "—"
       },
       "bibliographicNote": "DAC2001题名是non-slicing floorplans。作者网站另有TVLSI2005期刊版；其可下载稿首页残留MONTH 2003占位，不能据此登记为2003出版。",
       "evidence": [
@@ -408,7 +444,8 @@
         "allocation": "—",
         "search": "模拟退火；交换、插入、旋转与corner选择扰动",
         "legalization": "轮廓拐角上的顺序packing",
-        "evaluation": "面积与线长"
+        "evaluation": "面积与线长",
+        "wirelength": "—"
       },
       "bibliographicNote": "年份为2003；作者顺序依原文首页，而非部分作者主页的异序条目。",
       "evidence": [
@@ -444,7 +481,8 @@
         "allocation": "—",
         "search": "模拟退火",
         "legalization": "多角packing与contour",
-        "evaluation": "宏布局面积、线长、位移及重叠"
+        "evaluation": "宏布局面积、线长、位移及重叠",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -485,7 +523,8 @@
         "allocation": "—",
         "search": "模拟退火",
         "legalization": "多角packing；约束修复及重叠惩罚",
-        "evaluation": "宏阶段：面积、层次组伪网线长、位移、重叠；实验另评 routed WL / overflow"
+        "evaluation": "宏阶段：面积、层次组伪网线长、位移、重叠；实验另评 routed WL / overflow",
+        "wirelength": "层次组 pseudo-net 的线长项；本次未单独核查其完整 pin-level 估计公式。"
       },
       "bibliographicNote": "期刊首页明确说明工作部分发表于DAC2007；本条保留期刊首页作者名Tien-Yueh Liu，避免自行统一会议作者别名。",
       "evidence": [
@@ -528,13 +567,20 @@
         "allocation": "—",
         "search": "—",
         "legalization": "沿边界循环packing",
-        "evaluation": "可布线性感知线长模型；macro porosity"
+        "evaluation": "可布线性感知线长模型；macro porosity",
+        "wirelength": "面向宏与标准单元互连、考虑 macro porosity 的 routability-aware wirelength；公式待全文核查"
       },
       "evidence": [
         {
           "url": "https://doi.org/10.1145/2593069.2593206",
           "locator": "出版方题录与Abstract",
           "claim": "作者、年份、DOI，以及CP-tree、macro–cell线长和porosity的摘要级描述。",
+          "access": "abstract"
+        },
+        {
+          "url": "https://doi.org/10.1145/2593069.2593206",
+          "locator": "ACM Abstract",
+          "claim": "摘要明确描述该线长模型及 macro porosity。",
           "access": "abstract"
         }
       ],
@@ -564,7 +610,8 @@
         "allocation": "—",
         "search": "模拟退火（机构摘要明确）",
         "legalization": "围绕障碍contour的circular packing",
-        "evaluation": "线长、可布线性、标准单元区域形状及面积"
+        "evaluation": "线长、可布线性、标准单元区域形状及面积",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -606,7 +653,8 @@
         "allocation": "—",
         "search": "整篇论文含force-directed quadratic placement；RUDY组件本身是需求估计",
         "legalization": "—",
-        "evaluation": "Rectangular Uniform wire DensitY；布线需求分布"
+        "evaluation": "Rectangular Uniform wire DensitY；布线需求分布",
+        "wirelength": "—（RUDY 是逐网空间需求密度估计，不是单一线长目标）"
       },
       "evidence": [
         {
@@ -647,7 +695,8 @@
         "allocation": "—",
         "search": "Nesterov 优化；局部密度惩罚和动态步长",
         "legalization": "—",
-        "evaluation": "分层布线需求/容量与 NCTU-GR 反馈"
+        "evaluation": "分层布线需求/容量与 NCTU-GR 反馈",
+        "wirelength": "以 WA 平滑 HPWL；与 density penalty 共同形成 Eq.(1)"
       },
       "method": "在 ePlace 的静电密度模型上引入按 bin 的局部密度惩罚及动态步长调整；可布线模式使用全局布线反馈驱动 cell inflation。",
       "limits": [
@@ -665,6 +714,12 @@
           "locator": "条目126",
           "claim": "期刊卷期为2019；作者公开稿页眉含2018字样，本文按正式卷期记录年份。",
           "access": "metadata"
+        },
+        {
+          "url": "https://vlsicad.ucsd.edu/Publications/Journals/j126.pdf",
+          "locator": "§II，Eq.(1)；参考文献[12]",
+          "claim": "明确将 WA 归因于 DAC 2011。",
+          "access": "fulltext"
         }
       ],
       "version": "本次方法核查使用作者公开的 accepted manuscript；题录使用期刊卷期年份。",
@@ -688,7 +743,8 @@
         "allocation": "—",
         "search": "PyTorch/CUDA 线长和密度算子；梯度优化",
         "legalization": "标准单元行合法化：Tetris-like / Abacus",
-        "evaluation": "HPWL 与运行时间"
+        "evaluation": "HPWL 与运行时间",
+        "wirelength": "WA 的前向与反向 GPU 算子；框架亦实现 LSE"
       },
       "method": "将解析布局的目标和梯度计算映射到深度学习工具链，采用 ePlace/RePlAce 一系的线长和密度建模。",
       "limits": [
@@ -706,6 +762,12 @@
           "locator": "Publication Date / Published in",
           "claim": "确认DAC2019版本及六名作者。",
           "access": "metadata"
+        },
+        {
+          "url": "https://www.cerc.utexas.edu/utda/publications/C252.pdf",
+          "locator": "§2.3，Eq.(2)；§3.1",
+          "claim": "明确 WA、LSE 与按 pin 并行的线长和梯度计算。",
+          "access": "fulltext"
         }
       ],
       "version": "DAC 2019 会议版",
@@ -729,7 +791,8 @@
         "allocation": "—",
         "search": "改进的 GPU/CPU 算子与多种梯度优化器",
         "legalization": "标准单元行合法化：Tetris-like / Abacus",
-        "evaluation": "NCTUgr 反馈；分层需求/容量驱动 cell inflation"
+        "evaluation": "NCTUgr 反馈；分层需求/容量驱动 cell inflation",
+        "wirelength": "—"
       },
       "method": "期刊稿补充算子实现和实验，并给出 NCTUgr 反馈的 cell inflation 流程；引用时应保留2021卷期与2020 DOI年份的区别。",
       "limits": [
@@ -770,7 +833,8 @@
         "allocation": "—",
         "search": "内层解析布局；外层多目标 Bayesian 优化（MOTPE）",
         "legalization": "宏 halo 与方向细化；沿用布局引擎合法化",
-        "evaluation": "FLUTE/RSMT、密度、含宏阻挡的 RUDY；后端 PPA"
+        "evaluation": "FLUTE/RSMT、密度、含宏阻挡的 RUDY；后端 PPA",
+        "wirelength": "外层候选评价：FLUTE 计算各网的 RSMT 线长；区分内层解析目标"
       },
       "method": "同时布局宏与标准单元，搜索布局器参数，并以代理指标构造 Pareto 候选；选出的候选再进入后端流程。",
       "limits": [
@@ -781,6 +845,12 @@
           "url": "https://d1qx31qr3h6wln.cloudfront.net/publications/AutoDMP.pdf",
           "locator": "§4、§4.1.3、§4.2.1、§4.4.2",
           "claim": "两层搜索/评价；RUDY含宏阻挡，Gaussian平滑后取最拥塞10% bins平均。",
+          "access": "fulltext"
+        },
+        {
+          "url": "https://d1qx31qr3h6wln.cloudfront.net/publications/AutoDMP.pdf",
+          "locator": "§4.1.1；参考文献[16]",
+          "claim": "明确用 2008 FLUTE 估计候选线长。",
           "access": "fulltext"
         }
       ],
@@ -805,7 +875,8 @@
         "allocation": "簇形状计算与簇布局",
         "search": "Simulated Annealing",
         "legalization": "—",
-        "evaluation": "线长、轮廓、外围偏好、pin access与notch；后端评价"
+        "evaluation": "线长、轮廓、外围偏好、pin access与notch；后端评价",
+        "wirelength": "—"
       },
       "method": "先从逻辑层次构建物理簇，再用 Sequence Pair 和 SA 确定簇布局与宏位置，显式处理轮廓、障碍、I/O访问和notch。",
       "limits": [
@@ -840,7 +911,8 @@
         "allocation": "多级autoclustering；自底向上/自顶向下形状计算",
         "search": "多起点SA，逐层布局",
         "legalization": "—",
-        "evaluation": "HPWL、轮廓、外围偏好、阻挡与notch；后布线QoR"
+        "evaluation": "HPWL、轮廓、外围偏好、阻挡与notch；后布线QoR",
+        "wirelength": "HPWL 与层次化布局代价，具体作用于簇级及宏级 SA。"
       },
       "method": "将 RTL-MP 的单层物理簇扩展为多层物理层次，逐层确定形状和位置，并允许宏沿内部簇边界布局。",
       "limits": [
@@ -881,7 +953,8 @@
         "allocation": "—",
         "search": "线长与外围目标的梯度宏位移",
         "legalization": "约束图+LP",
-        "evaluation": "布局及后布线线长、时序和功耗"
+        "evaluation": "布局及后布线线长、时序和功耗",
+        "wirelength": "—"
       },
       "method": "迭代执行宏诊断、梯度位移与LP合法化，在保留相对位置的同时将诊断出的宏向外围调整。",
       "limits": [
@@ -916,7 +989,8 @@
         "allocation": "—",
         "search": "增量宏位移；diffusion-based cell migration",
         "legalization": "LP宏合法化与manufacturing-grid对齐",
-        "evaluation": "AutoDMP/DREAMPlace 4.0集成；后布线QoR"
+        "evaluation": "AutoDMP/DREAMPlace 4.0集成；后布线QoR",
+        "wirelength": "—"
       },
       "method": "在会议版诊断—位移—合法化流程中加入扩散式标准单元迁移，以更新后续迭代的线长参考；另给出宏pin制造网格对齐方法。",
       "limits": [
@@ -958,7 +1032,8 @@
         "allocation": "每轮选择部分宏组并固定",
         "search": "DREAMPlace原型；椭圆上的ABPlace；演化树搜索",
         "legalization": "—",
-        "evaluation": "位移、连接、外围与notch等packing代价；后端QoR"
+        "evaluation": "位移、连接、外围与notch等packing代价；后端QoR",
+        "wirelength": "Eq.(6) 的连接代价与其他 packing 代价共同优化；不将其自动等同 HPWL 或 RSMT。"
       },
       "method": "每轮重新计算混合尺寸原型，经ABPlace和四角树packing优化一部分宏组，再固定这些宏并继续下一轮。",
       "limits": [
@@ -1013,7 +1088,8 @@
         "allocation": "—",
         "search": "pairwise learning-to-rank训练",
         "legalization": "—",
-        "evaluation": "CU.GR全局布线线长、vias与shorts的候选排序"
+        "evaluation": "CU.GR全局布线线长、vias与shorts的候选排序",
+        "wirelength": "预测 CU.GR 的布线线长排序；与 HPWL 或 RSMT 的解析目标不同。"
       },
       "method": "用平移等变的图网络与成对排序损失，对宏布局候选的布线指标进行排序。",
       "limits": [
@@ -1051,7 +1127,8 @@
         "allocation": "—",
         "search": "RouteGNN拥塞预测的梯度进入位置优化",
         "legalization": "—",
-        "evaluation": "全局布线Total/Max Overflow及routed wirelength"
+        "evaluation": "全局布线Total/Max Overflow及routed wirelength",
+        "wirelength": "—"
       },
       "method": "训练RouteGNN估计拥塞，并通过可微几何特征将预测拥塞对单元坐标的梯度传回布局器；另评估以该模型替代router反馈的cell inflation模式。",
       "limits": [
@@ -1097,7 +1174,8 @@
         "allocation": "把标准单元面积沿层次树分配给后代宏并膨胀宏；递归区域二分及切线移动平衡可用面积利用率。",
         "search": "Best-choice 风格分组；区域划分；dataflow-aware FM 风格成对交换；SE 概率选择宏并重放。",
         "legalization": "在目标区域枚举空白 tile，测试四角候选与相邻tile的几何可行性；不足时扩大搜索窗口。",
-        "evaluation": "候选代价与 SE 基础质量项使用线长、组重心距离等；实际选择分数另含探索项。ICC 报告线长及 global-routing overflow。"
+        "evaluation": "候选代价与 SE 基础质量项使用线长、组重心距离等；实际选择分数另含探索项。ICC 报告线长及 global-routing overflow。",
+        "wirelength": "合法化 Eq.(3)：宏与预置宏/预置 pin 的线长；SE Eq.(5)：宏与已放置宏/固定 pin 的线长。原文未在相应式中明确具体几何估计公式。"
       },
       "pipeline": [
         {
@@ -1238,6 +1316,12 @@
           "locator": "机构题录；DOI及作者、卷期页码",
           "claim": "核对作者、2021年、TVLSI29(5)、973–984和DOI。",
           "access": "metadata"
+        },
+        {
+          "url": "https://doi.org/10.1109/TVLSI.2021.3057921",
+          "locator": "§V-B Eq.(3)；§VI-A Eq.(5)",
+          "claim": "两阶段线长项的不同连接对象。",
+          "access": "fulltext"
         }
       ],
       "short": "Dataflow-aware SE",
@@ -1271,7 +1355,8 @@
         "allocation": "ζ×ζ网格，实验ζ=16；RL与MCTS对宏组选择网格。宏组按总面积非递增顺序分配。",
         "search": "Actor–Critic先训练策略与价值网络；MCTS以策略概率及PUCT选择分支，非终局用价值网络评估，终局执行实际placement。",
         "legalization": "QP(cell groups) → QP(macros) → SP + LP；QP 完整模型未给出",
-        "evaluation": "用最终placement的HPWL构造平移/缩放的episode reward；工业和ICCAD04实验报告线长，未报告overflow或详细布线DRC。"
+        "evaluation": "用最终placement的HPWL构造平移/缩放的episode reward；工业和ICCAD04实验报告线长，未报告overflow或详细布线DRC。",
+        "wirelength": "LP Eq.(3)：二端网加权横/纵线长；训练 Eq.(9)：完整布局 HPWL 的仿射变换；两次 QP 的完整目标未给出。"
       },
       "pipeline": [
         {
@@ -1447,7 +1532,8 @@
         "allocation": "—",
         "search": "multilevel placement prototyping",
         "legalization": "—",
-        "evaluation": "—"
+        "evaluation": "—",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -1488,7 +1574,8 @@
         "allocation": "按设计层次膨胀宏，预留标准单元空间",
         "search": "simulated evolution",
         "legalization": "空白区域中的宏放置",
-        "evaluation": "—"
+        "evaluation": "—",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -1530,7 +1617,8 @@
         "allocation": "density control；white-space reallocation",
         "search": "multilevel analytical placement；conjugate gradient",
         "legalization": "—",
-        "evaluation": "—"
+        "evaluation": "—",
+        "wirelength": "HPWL，Eq.(3)；LSE 近似，Eq.(4)；明确引用 Naylor 专利[2]"
       },
       "evidence": [
         {
@@ -1544,13 +1632,19 @@
           "locator": "§VIII, p.981；参考文献[7]",
           "claim": "实验先以NTUplace3分布宏和标准单元，再运行本文宏合法化。",
           "access": "fulltext"
+        },
+        {
+          "url": "https://scholars.lib.ntu.edu.tw/server/api/core/bitstreams/8d8754d1-8130-457b-a572-87faff16a3d4/content",
+          "locator": "§II，Eqs.(3)–(4)；参考文献[2]",
+          "claim": "核实线长目标与平滑式，及所引用的专利编号。",
+          "access": "fulltext"
         }
       ],
       "short": "NTUplace3",
       "role": "mixed",
-      "access": "abstract",
+      "access": "fulltext",
       "limits": [
-        "本次独立方法核查限官方摘要；其在TVLSI2021流程中的用途由2021全文明确支持。"
+        "本次补充核查线长模型原文；其他组件沿用已有摘要级核查范围。"
       ],
       "version": "题录与方法核查版本见来源",
       "reviewDate": "2026-11-26"
@@ -1575,7 +1669,8 @@
         "allocation": "—（金属层分配属于路由问题）",
         "search": "SE rip-up and reroute；两阶段历史代价",
         "legalization": "不适用：处理 routing overflow 和层容量约束",
-        "evaluation": "routing overflow、线长、通孔数、运行时间"
+        "evaluation": "routing overflow、线长、通孔数、运行时间",
+        "wirelength": "—"
       },
       "limits": [
         "优化变量是布线路径及层，不是宏位置。",
@@ -1617,7 +1712,8 @@
         "allocation": "—",
         "search": "—",
         "legalization": "—",
-        "evaluation": "global / local wiring resource modeling；拥塞评价指标"
+        "evaluation": "global / local wiring resource modeling；拥塞评价指标",
+        "wirelength": "—"
       },
       "limits": [
         "本次核对范围为作者机构题录和摘要；未据此补写公式、具体参数或实验数值。",
@@ -1653,7 +1749,8 @@
         "allocation": "—",
         "search": "—",
         "legalization": "—",
-        "evaluation": "局部布线资源估计；热点平滑；拥塞汇总指标"
+        "evaluation": "局部布线资源估计；热点平滑；拥塞汇总指标",
+        "wirelength": "—"
       },
       "limits": [
         "本次仅核对官方摘要与题录，未读取完整公式和实验设置。",
@@ -1689,7 +1786,8 @@
         "allocation": "—",
         "search": "基于 RePlAce 的非线性解析布局",
         "legalization": "本条目未核对独立合法化模块",
-        "evaluation": "RUDY 或 FastRoute；RC 汇总指标"
+        "evaluation": "RUDY 或 FastRoute；RC 汇总指标",
+        "wirelength": "—"
       },
       "limits": [
         "实现选项会变化；本条目记录核对日期，不将当前实现倒推为早期论文的原始配置。",
@@ -1725,7 +1823,8 @@
         "allocation": "递归分块；自顶向下面积预算",
         "search": "模拟退火",
         "legalization": "自顶向下的块形状与布局生成",
-        "evaluation": "线长目标；本条目不摘录性能优越性结论"
+        "evaluation": "线长目标；本条目不摘录性能优越性结论",
+        "wirelength": "—"
       },
       "limits": [
         "本次只核对摘要、引言与题录；完整代价和实验流程尚未在此展开。",
@@ -1767,7 +1866,8 @@
         "allocation": "递归 prototype / relocate",
         "search": "基于角度的解析优化及外围重定位启发式",
         "legalization": "本次摘要核查未展开约束实现",
-        "evaluation": "摘要报告 OpenROAD-flow-scripts 上的时序评价"
+        "evaluation": "摘要报告 OpenROAD-flow-scripts 上的时序评价",
+        "wirelength": "—"
       },
       "limits": [
         "未将 Re²MaP 的四角树 packing 反写为本会议版的实现。",
@@ -1812,7 +1912,8 @@
         "allocation": "顶层模块面积分配",
         "search": "平面嵌入与切片结构构造",
         "legalization": "—",
-        "evaluation": "给定长宽比的面积；可结合布线空间估计"
+        "evaluation": "给定长宽比的面积；可结合布线空间估计",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -1853,7 +1954,8 @@
         "allocation": "—",
         "search": "Simulated annealing",
         "legalization": "—",
-        "evaluation": "面积及线长"
+        "evaluation": "面积及线长",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -1894,7 +1996,8 @@
         "allocation": "—",
         "search": "—",
         "legalization": "几何解码与紧凑化",
-        "evaluation": "—"
+        "evaluation": "—",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -1935,7 +2038,8 @@
         "allocation": "在指定芯片轮廓内确定宏位置",
         "search": "初始布局与宏 floorplanning 分阶段",
         "legalization": "宏 floorplanning 后重新进行标准单元布局",
-        "evaluation": "—"
+        "evaluation": "—",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -1982,7 +2086,8 @@
         "allocation": "递归划分与固定轮廓 floorplanning",
         "search": "min-cut placement 与 floorplanning 集成",
         "legalization": "—",
-        "evaluation": "—"
+        "evaluation": "—",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -2023,7 +2128,8 @@
         "allocation": "—",
         "search": "Nesterov、步长回溯及非线性预条件",
         "legalization": "SA 宏合法化；第二阶段标准单元全局布局",
-        "evaluation": "线长与运行时间；摘要报告 16 个混合尺寸基准"
+        "evaluation": "线长与运行时间；摘要报告 16 个混合尺寸基准",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -2066,7 +2172,8 @@
         "allocation": "保持宏规则排列的空间组织",
         "search": "—",
         "legalization": "确定性宏合法化",
-        "evaluation": "规则性与 routability"
+        "evaluation": "规则性与 routability",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -2101,7 +2208,8 @@
         "allocation": "多层次划分与宏的空间组织",
         "search": "解析布局方法",
         "legalization": "—",
-        "evaluation": "—"
+        "evaluation": "—",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -2136,7 +2244,8 @@
         "allocation": "—",
         "search": "—",
         "legalization": "—",
-        "evaluation": "CNN 预测布线可行性/热点"
+        "evaluation": "CNN 预测布线可行性/热点",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -2171,7 +2280,8 @@
         "allocation": "—",
         "search": "Simulated annealing",
         "legalization": "—",
-        "evaluation": "CNN 预测布线相关代价"
+        "evaluation": "CNN 预测布线相关代价",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -2212,7 +2322,8 @@
         "allocation": "逐步确定宏位置",
         "search": "深度强化学习",
         "legalization": "—",
-        "evaluation": "布局代价；实际 PPA 须独立核查"
+        "evaluation": "布局代价；实际 PPA 须独立核查",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -2247,7 +2358,8 @@
         "allocation": "候选位置 mask",
         "search": "强化学习顺序放置",
         "legalization": "—",
-        "evaluation": "训练中的增量 HPWL 奖励；测试阶段拥塞检查"
+        "evaluation": "训练中的增量 HPWL 奖励；测试阶段拥塞检查",
+        "wirelength": "增量 HPWL：基于 wire mask 的候选位置评价。"
       },
       "evidence": [
         {
@@ -2282,7 +2394,8 @@
         "allocation": "利用已有宏位置作为调节基础",
         "search": "强化学习式布局调整",
         "legalization": "—",
-        "evaluation": "HPWL 与规则性"
+        "evaluation": "HPWL 与规则性",
+        "wirelength": "HPWL 与规则性；现有已核查证据不支持采用 RSMT 的结论。"
       },
       "evidence": [
         {
@@ -2317,7 +2430,8 @@
         "allocation": "—",
         "search": "—",
         "legalization": "—",
-        "evaluation": "—"
+        "evaluation": "—",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -2352,7 +2466,8 @@
         "allocation": "—",
         "search": "—",
         "legalization": "—",
-        "evaluation": "真实设计的端到端流程与 PPA 指标"
+        "evaluation": "真实设计的端到端流程与 PPA 指标",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -2385,7 +2500,8 @@
         "allocation": "解析顶层区域分配及组内 ILP",
         "search": "解析优化、整数线性规划、增量交换及 PGD",
         "legalization": "边界感知布局及合法化",
-        "evaluation": "时序 WNS / TNS；摘要报告与 Hier-RTLMP 在 15 个 ChiPBench 设计上的比较"
+        "evaluation": "时序 WNS / TNS；摘要报告与 Hier-RTLMP 在 15 个 ChiPBench 设计上的比较",
+        "wirelength": "—"
       },
       "evidence": [
         {
@@ -2408,6 +2524,462 @@
       "reviewDate": "2026-11-27",
       "version": "题录及方法核查依据见来源",
       "access": "abstract"
+    },
+    {
+      "short": "GORDIAN",
+      "title": "GORDIAN: VLSI Placement by Quadratic Programming and Slicing Optimization",
+      "authors": "Jürgen M. Kleinhans; Georg Sigl; Frank M. Johannes; Kurt J. Antreich",
+      "year": 1991,
+      "venue": "IEEE TCAD 10(3), 356–365",
+      "doi": "10.1109/43.67789",
+      "url": "https://portal.fis.tum.de/en/publications/gordian-vlsi-placement-by-quadratic-programming-and-slicing-optim/",
+      "role": "mixed",
+      "access": "abstract",
+      "scope": "基于连续优化与递归划分的全局布局。",
+      "method": "在各级分区约束下保持对整体电路的全局二次规划求解，并以切片过程改善面积利用率。",
+      "components": {
+        "representation": "—",
+        "connectivity": "—",
+        "allocation": "—",
+        "search": "二次规划与递归分区交替",
+        "legalization": "—",
+        "wirelength": "二次连接代价；原始权重与图展开公式待全文核查",
+        "evaluation": "—"
+      },
+      "evidence": [
+        {
+          "url": "https://portal.fis.tum.de/en/publications/gordian-vlsi-placement-by-quadratic-programming-and-slicing-optim/",
+          "locator": "机构题录及 Abstract",
+          "claim": "确认作者、出版信息和二次规划与分区交替框架。",
+          "access": "abstract"
+        }
+      ],
+      "limits": [
+        "1991 论文是代表性应用，不宣称其首次发明二次布局模型。"
+      ],
+      "id": "GORDIAN91",
+      "reviewDate": "2026-11-27",
+      "version": "具体出版版本见题录与证据"
+    },
+    {
+      "short": "Linear vs. Quadratic",
+      "title": "Analytical Placement: A Linear or a Quadratic Objective Function?",
+      "authors": "Georg Sigl; Konrad Doll; Frank M. Johannes",
+      "year": 1991,
+      "venue": "DAC 1991, 427–432",
+      "doi": "10.1145/127601.127707",
+      "url": "https://portal.fis.tum.de/en/publications/analytical-placement-a-linear-or-a-quadratic-objective-function/",
+      "role": "mixed",
+      "access": "abstract",
+      "scope": "线性与二次布局目标的比较及结合。",
+      "method": "在 GORDIAN 的解析分区框架上讨论线性目标，并结合高效二次规划和迭代分区。",
+      "components": {
+        "representation": "—",
+        "connectivity": "—",
+        "allocation": "—",
+        "search": "解析分区；线性目标与 QP 结合",
+        "legalization": "—",
+        "wirelength": "线性目标与二次目标的对照；具体重加权规则待核",
+        "evaluation": "—"
+      },
+      "evidence": [
+        {
+          "url": "https://portal.fis.tum.de/en/publications/analytical-placement-a-linear-or-a-quadratic-objective-function/",
+          "locator": "机构摘要",
+          "claim": "明确说明以 GORDIAN 的方法为基础讨论线性和二次目标。",
+          "access": "abstract"
+        },
+        {
+          "url": "https://dblp1.uni-trier.de/rec/conf/dac/SiglDJ91.html",
+          "locator": "题录",
+          "claim": "核实 DAC 1991、作者、页码及 ACM DOI。",
+          "access": "metadata"
+        }
+      ],
+      "limits": [
+        "未取得完整方法章节，不将其等同于后来 B2B 权重公式。"
+      ],
+      "id": "GORDIANL91",
+      "reviewDate": "2026-11-27",
+      "version": "具体出版版本见题录与证据"
+    },
+    {
+      "short": "LSE · Naylor et al.",
+      "title": "Non-linear optimization system and method for wire length and delay optimization for an automatic electric circuit placer",
+      "authors": "William C. Naylor; Ross Donelly; Lu Sha",
+      "year": 2001,
+      "venue": "US 6,301,693 B1, granted 2001-10-09",
+      "doi": null,
+      "url": "https://patents.google.com/patent/US6301693B1/en",
+      "role": "patent",
+      "access": "fulltext",
+      "version": "美国授权专利；非会议或期刊论文",
+      "scope": "布局非线性优化中的光滑线长与时延代价。",
+      "method": "用 log-sum-exp 近似多端网坐标的 max/min，构成可微 HPWL 代理，供梯度优化使用。",
+      "components": {
+        "representation": "—",
+        "connectivity": "—",
+        "allocation": "—",
+        "search": "连续非线性优化",
+        "legalization": "—",
+        "wirelength": "LSE；log_sum_exp 平滑 max/min",
+        "evaluation": "—"
+      },
+      "evidence": [
+        {
+          "url": "https://patents.google.com/patent/US6301693B1/en",
+          "locator": "权利要求 28–29；线长及光滑函数描述",
+          "claim": "明确记载 half-perimeter wirelength 的 log_sum_exp 平滑。",
+          "access": "fulltext"
+        },
+        {
+          "url": "https://scholars.lib.ntu.edu.tw/server/api/core/bitstreams/8d8754d1-8130-457b-a572-87faff16a3d4/content",
+          "locator": "p.1228；参考文献[2]",
+          "claim": "NTUplace3 明确归因并引用该具体专利。",
+          "access": "fulltext"
+        }
+      ],
+      "limits": [
+        "专利用作方法来源记录，不将专利授权日期解释为 LSE 数学函数的首次提出。"
+      ],
+      "id": "LSE2001",
+      "reviewDate": "2026-11-27"
+    },
+    {
+      "short": "FLUTE · wirelength estimation",
+      "title": "FLUTE: Fast Lookup Table Based Wirelength Estimation Technique",
+      "authors": "Chris Chu",
+      "year": 2004,
+      "venue": "ICCAD 2004, 696–701",
+      "doi": "10.1109/ICCAD.2004.1382665",
+      "url": "https://home.engineering.iastate.edu/~cnchu/pubs/c28.pdf",
+      "role": "model",
+      "access": "fulltext",
+      "scope": "早期物理设计中的快速多端网几何线长估计。",
+      "method": "利用引脚相对次序和预计算线长向量估计整流 Steiner 线长，对低度数网进行高效查表。",
+      "components": {
+        "representation": "—",
+        "connectivity": "—",
+        "allocation": "—",
+        "search": "—",
+        "legalization": "—",
+        "wirelength": "FLUTE 查表估计；对照 HPWL、RMST 与 Steiner 线长",
+        "evaluation": "估计误差与运行时间"
+      },
+      "evidence": [
+        {
+          "url": "https://home.engineering.iastate.edu/~cnchu/pubs/c28.pdf",
+          "locator": "摘要及方法章节",
+          "claim": "预计算查表与线长估计；比较 HPWL 和 RMST。",
+          "access": "fulltext"
+        },
+        {
+          "url": "https://eecs.wsu.edu/~daehyun/teaching/2016_EE582/papers/r-flute.pdf",
+          "locator": "参考文献[18]",
+          "claim": "确认 ICCAD 2004 版本及页码。",
+          "access": "fulltext"
+        },
+        {
+          "url": "https://openalex.org/works/W1603813963",
+          "locator": "DOI 字段",
+          "claim": "IEEE DOI；会议年份依据原会议题录和原文，而非聚合索引在线年份。",
+          "access": "metadata"
+        }
+      ],
+      "limits": [
+        "IEEE/ACM 收录入口存在不同标识；本条采用 IEEE DOI。不等于带障碍、层资源和 DRC 的实际布线。"
+      ],
+      "id": "FLUTE04",
+      "reviewDate": "2026-11-27",
+      "version": "具体出版版本见题录与证据"
+    },
+    {
+      "short": "FastPlace · Hybrid net model",
+      "title": "FastPlace: Efficient Analytical Placement Using Cell Shifting, Iterative Local Refinement, and a Hybrid Net Model",
+      "authors": "Natarajan Viswanathan; Chris Chong-Nuen Chu",
+      "year": 2005,
+      "venue": "IEEE TCAD 24(5), 722–733",
+      "doi": "10.1109/TCAD.2005.846365",
+      "url": "https://home.engineering.iastate.edu/~cnchu/pubs/j20.pdf",
+      "role": "mixed",
+      "access": "fulltext",
+      "scope": "标准单元的快速平坦二次布局与局部优化。",
+      "method": "组合 clique 和 star 网模型：2–3 pin 网采用 clique，至少 4 pin 网采用 star；适当选择权重时，两者在二次布局中等价。另以 HPWL 作局部细化。",
+      "components": {
+        "representation": "—",
+        "connectivity": "2–3 pin clique；≥4 pin star",
+        "allocation": "—",
+        "search": "二次规划、cell shifting、迭代局部细化",
+        "legalization": "—",
+        "wirelength": "二次连接代价；局部细化采用 HPWL",
+        "evaluation": "求解稀疏性、布局线长与运行时间"
+      },
+      "evidence": [
+        {
+          "url": "https://home.engineering.iastate.edu/~cnchu/pubs/j20.pdf",
+          "locator": "§IV-A/B；§VI",
+          "claim": "混合网模型、等价性证明、阈值及 HPWL 局部细化。",
+          "access": "fulltext"
+        },
+        {
+          "url": "https://dblp.dagstuhl.de/rec/journals/tcad/ViswanathanC05.html",
+          "locator": "题录",
+          "claim": "正式卷期、页码与 DOI。",
+          "access": "metadata"
+        }
+      ],
+      "limits": [
+        "clique/star 等价有权重和二次目标条件；不是对真实共享布线路径长度的等价性证明。"
+      ],
+      "id": "FASTPLACE05",
+      "reviewDate": "2026-11-27",
+      "version": "具体出版版本见题录与证据"
+    },
+    {
+      "short": "Exact linear net model",
+      "title": "Fast and Robust Quadratic Placement Combined with an Exact Linear Net Model",
+      "authors": "Peter Spindler; Frank M. Johannes",
+      "year": 2006,
+      "venue": "ICCAD 2006, 179–186",
+      "doi": "10.1109/ICCAD.2006.320083",
+      "url": "https://www.cecs.uci.edu/~papers/iccad06/papers/3A_3.pdf",
+      "role": "mixed",
+      "access": "abstract",
+      "scope": "使二次布局目标更准确地表达 HPWL。",
+      "method": "提出线性 netlength 的二次代价表示，并分解布局 spreading 的 hold force 与 move force。",
+      "components": {
+        "representation": "—",
+        "connectivity": "—",
+        "allocation": "—",
+        "search": "force-directed quadratic placement",
+        "legalization": "—",
+        "wirelength": "线性 HPWL 的二次代价表示",
+        "evaluation": "—"
+      },
+      "evidence": [
+        {
+          "url": "https://portal.fis.tum.de/en/publications/fast-and-robust-quadratic-placement-combined-with-an-exact-linear/",
+          "locator": "机构题录及摘要",
+          "claim": "确认线性网模型与会议出版信息。",
+          "access": "abstract"
+        },
+        {
+          "url": "https://www.cecs.uci.edu/~papers/iccad06/papers/3A_3.pdf",
+          "locator": "首页摘要",
+          "claim": "明确以 HPWL 为线性网长度目标。",
+          "access": "abstract"
+        }
+      ],
+      "limits": [
+        "会议版的具体公式及其与期刊版的差异尚未逐项复核；不自动标为正式期刊扩展。"
+      ],
+      "id": "B2B06",
+      "reviewDate": "2026-11-27",
+      "version": "具体出版版本见题录与证据"
+    },
+    {
+      "short": "Kraftwerk2 · Bound2Bound",
+      "title": "Kraftwerk2—A Fast Force-Directed Quadratic Placement Approach Using an Accurate Net Model",
+      "authors": "Peter Spindler; Ulf Schlichtmann; Frank M. Johannes",
+      "year": 2008,
+      "venue": "IEEE TCAD 27(8), 1398–1411",
+      "doi": "10.1109/TCAD.2008.925783",
+      "url": "https://janders.eecg.utoronto.ca/1387/readings/b2b.pdf",
+      "role": "mixed",
+      "access": "fulltext",
+      "scope": "用稀疏二次模型近似/重构线性 HPWL 并进行全局布局。",
+      "method": "在每个坐标轴选择两个边界 pin，只保留与边界相关的二端连接；按当前 pin 距离设置权重，使当前点的二次代价值等于 HPWL。",
+      "components": {
+        "representation": "—",
+        "connectivity": "Bound2Bound；轴向边界 pin 与重加权",
+        "allocation": "—",
+        "search": "迭代 force-directed QP",
+        "legalization": "—",
+        "wirelength": "在当前布局点匹配 HPWL 的二次代价",
+        "evaluation": "HPWL、运行时间；与 clique/star 混合模型比较"
+      },
+      "evidence": [
+        {
+          "url": "https://janders.eecg.utoronto.ca/1387/readings/b2b.pdf",
+          "locator": "§III-A；Eqs.(8)–(12)；Fig.4；Table I",
+          "claim": "边界 pin、权重、当前代价值匹配 HPWL 及实验比较。",
+          "access": "fulltext"
+        },
+        {
+          "url": "https://portal.fis.tum.de/en/publications/kraftwerk2-a-fast-force-directed-quadratic-placement-approach-usi/",
+          "locator": "机构题录",
+          "claim": "核对卷期、页码、作者和 DOI。",
+          "access": "metadata"
+        }
+      ],
+      "limits": [
+        "固定旧权重后的二次函数不在所有新坐标上等于 HPWL；需要迭代更新模型。与真实 routed WL 仍不同。"
+      ],
+      "id": "KRAFTWERK08",
+      "reviewDate": "2026-11-27",
+      "version": "具体出版版本见题录与证据"
+    },
+    {
+      "short": "FLUTE · RSMT",
+      "title": "FLUTE: Fast Lookup Table Based Rectilinear Steiner Minimal Tree Algorithm for VLSI Design",
+      "authors": "Chris Chu; Yiu-Chung Wong",
+      "year": 2008,
+      "venue": "IEEE TCAD 27(1), 70–83",
+      "doi": "10.1109/TCAD.2007.907068",
+      "url": "https://eecs.wsu.edu/~daehyun/teaching/2016_EE582/papers/r-flute.pdf",
+      "role": "model",
+      "access": "fulltext",
+      "scope": "快速整流 Steiner 最小树构造与线长估计。",
+      "method": "按引脚相对坐标次序索引潜在最优线长向量与树形；低度数网查表获得最优解，高度数网使用拆分及合并近似。",
+      "components": {
+        "representation": "—",
+        "connectivity": "—",
+        "allocation": "—",
+        "search": "—",
+        "legalization": "—",
+        "wirelength": "二维 RSMT；原文实现对 degree≤9 最优，较高 degree 采用启发式",
+        "evaluation": "RSMT 线长误差、计算效率"
+      },
+      "evidence": [
+        {
+          "url": "https://eecs.wsu.edu/~daehyun/teaching/2016_EE582/papers/r-flute.pdf",
+          "locator": "§I–II；§VI；摘要与参考文献[18]–[19]",
+          "claim": "潜在最优向量/树形、低度数最优范围及拆分方法。",
+          "access": "fulltext"
+        }
+      ],
+      "limits": [
+        "树拓扑在无障碍二维几何模型上计算；不直接满足金属层、容量、绕障碍与 detailed-route 设计规则。"
+      ],
+      "id": "FLUTE08",
+      "reviewDate": "2026-11-27",
+      "version": "具体出版版本见题录与证据"
+    },
+    {
+      "short": "WA · DAC",
+      "title": "TSV-aware analytical placement for 3D IC designs",
+      "authors": "Meng-Kai Hsu; Yao-Wen Chang; Valeriy Balabanov",
+      "year": 2011,
+      "venue": "DAC 2011, 664–669",
+      "doi": "10.1145/2024724.2024875",
+      "url": "https://doi.org/10.1145/2024724.2024875",
+      "role": "mixed",
+      "access": "metadata",
+      "scope": "三维集成电路的解析布局；WA 模型的早期会议来源。",
+      "method": "后续 ePlace 和 RePlAce 原文均明确将 weighted-average 线长模型归因于此会议论文；本条以其题录及后续原文定位为依据。",
+      "components": {
+        "representation": "—",
+        "connectivity": "—",
+        "allocation": "—",
+        "search": "—",
+        "legalization": "—",
+        "wirelength": "WA（由 ePlace 2014 Eq.(3) 与引用[5]、RePlAce §II 与[12]交叉确认）",
+        "evaluation": "—"
+      },
+      "evidence": [
+        {
+          "url": "https://cir.nii.ac.jp/crid/1363670318482604416",
+          "locator": "Crossref 题录记录",
+          "claim": "DAC 2011、664–669、DOI。",
+          "access": "metadata"
+        },
+        {
+          "url": "https://cc.ee.ntu.edu.tw/~ywchang/Papers/tcad13-3D-placement.pdf",
+          "locator": "首页脚注；参考文献[1]",
+          "claim": "2013期刊明确声明该会议论文为 preliminary version。",
+          "access": "fulltext"
+        },
+        {
+          "url": "https://cseweb.ucsd.edu/~jlu/papers/eplace-dac14/paper.pdf",
+          "locator": "§II，Eq.(3)；参考文献[5]",
+          "claim": "明确采用此文 WA 模型。",
+          "access": "fulltext"
+        },
+        {
+          "url": "https://vlsicad.ucsd.edu/Publications/Journals/j126.pdf",
+          "locator": "§II；参考文献[12]",
+          "claim": "明确采用此文 WA smoothing。",
+          "access": "fulltext"
+        }
+      ],
+      "limits": [
+        "会议全文尚未独立复核；不将 2013 期刊的所有公式与实验自动归入 2011 会议。"
+      ],
+      "id": "WA11",
+      "reviewDate": "2026-11-27",
+      "version": "具体出版版本见题录与证据"
+    },
+    {
+      "short": "WA · TCAD",
+      "title": "TSV-Aware Analytical Placement for 3-D IC Designs Based on a Novel Weighted-Average Wirelength Model",
+      "authors": "Meng-Kai Hsu; Valeriy Balabanov; Yao-Wen Chang",
+      "year": 2013,
+      "venue": "IEEE TCAD 32(4), 497–509",
+      "doi": "10.1109/TCAD.2012.2226584",
+      "url": "https://cc.ee.ntu.edu.tw/~ywchang/Papers/tcad13-3D-placement.pdf",
+      "role": "mixed",
+      "access": "fulltext",
+      "scope": "三维解析布局与 HPWL/TSV 数的可微建模。",
+      "method": "使用指数加权的坐标平均值分别逼近最大、最小坐标，构成 WA 线长模型，并研究误差界及数值稳定性。",
+      "components": {
+        "representation": "—",
+        "connectivity": "—",
+        "allocation": "—",
+        "search": "解析全局布局",
+        "legalization": "—",
+        "wirelength": "HPWL、LSE 对照、WA；指数加权 max/min；stable WA",
+        "evaluation": "—"
+      },
+      "evidence": [
+        {
+          "url": "https://cc.ee.ntu.edu.tw/~ywchang/Papers/tcad13-3D-placement.pdf",
+          "locator": "首页脚注；§III-A 的 Wirelength and TSV Models、Weighted-Average Wirelength Model 及 Stable Weighted-Average Wirelength Model；Eqs.(4)–(8)",
+          "claim": "2011会议来源、LSE/WA公式及误差和数值稳定性。",
+          "access": "fulltext"
+        }
+      ],
+      "limits": [
+        "针对 HPWL 代理的逼近性质不自动等于真实布线误差更低；3D 完整布局实验与 2D macro-only 场景不同。"
+      ],
+      "id": "WA13",
+      "reviewDate": "2026-11-27",
+      "version": "具体出版版本见题录与证据"
+    },
+    {
+      "short": "ePlace · DAC",
+      "title": "ePlace: Electrostatics Based Placement Using Nesterov’s Method",
+      "authors": "Jingwei Lu; Pengwen Chen; Chin-Chih Chang; Lu Sha; Dennis J.-H. Huang; Chin-Chi Teng; Chung-Kuan Cheng",
+      "year": 2014,
+      "venue": "DAC 2014, paper 1–6",
+      "doi": "10.1145/2593069.2593133",
+      "url": "https://cseweb.ucsd.edu/~jlu/papers/eplace-dac14/paper.pdf",
+      "role": "mixed",
+      "access": "fulltext",
+      "scope": "基于静电密度与 Nesterov 方法的标准单元/混合尺寸解析布局。",
+      "method": "以 WA 平滑 HPWL，与静电密度代价共同构建连续目标；采用 Nesterov 优化。",
+      "components": {
+        "representation": "连续坐标与密度网格",
+        "connectivity": "—",
+        "allocation": "—",
+        "search": "Nesterov；静电密度代价",
+        "legalization": "—",
+        "wirelength": "WA，Eq.(3)；最终评价 HPWL",
+        "evaluation": "HPWL、运行时间"
+      },
+      "evidence": [
+        {
+          "url": "https://cseweb.ucsd.edu/~jlu/papers/eplace-dac14/paper.pdf",
+          "locator": "§II，Eqs.(1)–(4)；参考文献[5]",
+          "claim": "明确从 2011 DAC 的 WA 模型构建线长平滑目标，并与密度代价组合。",
+          "access": "fulltext"
+        }
+      ],
+      "limits": [
+        "线长平滑与 density penalty 为独立组件；该会议版不与 2015 ePlace 或 ePlace-MS 期刊记录合并。"
+      ],
+      "id": "EPLACE14",
+      "reviewDate": "2026-11-27",
+      "version": "具体出版版本见题录与证据"
     }
   ],
   "relations": [
@@ -2902,6 +3474,114 @@
       "locator": "Abstract，实验描述",
       "access": "abstract",
       "note": "未核查全表、绝对 slack、统计方式、工艺及运行条件。"
+    },
+    {
+      "id": "REL42",
+      "from": "GORDIAN91",
+      "to": "GORDIANL91",
+      "type": "adopts",
+      "component": "解析分区与 QP",
+      "claim": "1991 DAC 摘要明确以 GORDIAN 解析分区策略为基础，讨论线性与二次目标。",
+      "url": "https://portal.fis.tum.de/en/publications/analytical-placement-a-linear-or-a-quadratic-objective-function/",
+      "locator": "Abstract",
+      "access": "abstract",
+      "note": "仅确认基础框架，不声明版本扩展。"
+    },
+    {
+      "id": "REL43",
+      "from": "LSE2001",
+      "to": "NTUPLACE3",
+      "type": "adopts",
+      "component": "LSE 线长平滑",
+      "claim": "NTUplace3 明确使用 Naylor 等人的 LSE 模型，并引用 US 6,301,693。",
+      "url": "https://scholars.lib.ntu.edu.tw/server/api/core/bitstreams/8d8754d1-8130-457b-a572-87faff16a3d4/content",
+      "locator": "§I；§II Eq.(4)；参考文献[2]",
+      "access": "fulltext",
+      "note": ""
+    },
+    {
+      "id": "REL44",
+      "from": "FASTPLACE05",
+      "to": "KRAFTWERK08",
+      "type": "cites",
+      "component": "Clique/Star 等价性及混合模型",
+      "claim": "Kraftwerk2 讨论 FastPlace 的等价性证明与混合网模型。",
+      "url": "https://janders.eecg.utoronto.ca/1387/readings/b2b.pdf",
+      "locator": "§II、§III-A；参考文献[15]",
+      "access": "fulltext",
+      "note": "并未采用 FastPlace 的混合模型作为 B2B 本身。"
+    },
+    {
+      "id": "REL45",
+      "from": "B2B06",
+      "to": "KRAFTWERK08",
+      "type": "cites",
+      "component": "线性 net model 的早期工作",
+      "claim": "Kraftwerk2 正文引用同作者的 ICCAD 2006 工作。",
+      "url": "https://janders.eecg.utoronto.ca/1387/readings/b2b.pdf",
+      "locator": "参考文献[23]",
+      "access": "fulltext",
+      "note": "暂不声明正式版本扩展。"
+    },
+    {
+      "id": "REL46",
+      "from": "FLUTE04",
+      "to": "FLUTE08",
+      "type": "cites",
+      "component": "查表线长估计的早期工作",
+      "claim": "2008 论文引用 2004 FLUTE 线长估计。",
+      "url": "https://eecs.wsu.edu/~daehyun/teaching/2016_EE582/papers/r-flute.pdf",
+      "locator": "参考文献[18]",
+      "access": "fulltext",
+      "note": "2008 构树流程与早期估计论文分别记录；未标为已确认正式扩展。"
+    },
+    {
+      "id": "REL47",
+      "from": "WA11",
+      "to": "WA13",
+      "type": "extends",
+      "component": "会议版→期刊版",
+      "claim": "期刊首页脚注明确指出初步版本在 DAC 2011 发表。",
+      "url": "https://cc.ee.ntu.edu.tw/~ywchang/Papers/tcad13-3D-placement.pdf",
+      "locator": "p.497 首页脚注；参考文献[1]",
+      "access": "fulltext",
+      "note": ""
+    },
+    {
+      "id": "REL48",
+      "from": "WA11",
+      "to": "EPLACE14",
+      "type": "adopts",
+      "component": "WA 线长平滑",
+      "claim": "ePlace Eq.(3) 使用 WA，并直接指向 DAC 2011 [5]。",
+      "url": "https://cseweb.ucsd.edu/~jlu/papers/eplace-dac14/paper.pdf",
+      "locator": "§II Eq.(3)；参考文献[5]",
+      "access": "fulltext",
+      "note": ""
+    },
+    {
+      "id": "REL49",
+      "from": "WA11",
+      "to": "MC059",
+      "type": "adopts",
+      "component": "WA 线长平滑",
+      "claim": "RePlAce §II 明确用 WA smoothing 并引用 DAC 2011 [12]。",
+      "url": "https://vlsicad.ucsd.edu/Publications/Journals/j126.pdf",
+      "locator": "§II；参考文献[12]",
+      "access": "fulltext",
+      "note": ""
+    },
+    {
+      "id": "REL50",
+      "from": "FLUTE08",
+      "to": "MC086",
+      "type": "adopts",
+      "component": "RSMT 候选线长估计",
+      "claim": "AutoDMP §4.1.1 明确使用 FLUTE 计算每条网的 RSMT。",
+      "url": "https://d1qx31qr3h6wln.cloudfront.net/publications/AutoDMP.pdf",
+      "locator": "§4.1.1；参考文献[16]",
+      "access": "fulltext",
+      "note": "此关系是外层候选评价，不是将 RSMT 直接作为内层梯度目标。"
     }
   ],
   "pending": [
@@ -4259,6 +4939,10 @@
   },
   "revision": [
     {
+      "title": "独立线长建模研究分支",
+      "detail": "将线长建模加入方法组件矩阵，分别整理多端网展开、几何估计、连续平滑与宏布局/后端评价。补录 GORDIAN、线性/二次目标对照、LSE 专利、FastPlace、Bound2Bound、FLUTE、WA 及 ePlace；明确引用关系、适用条件与内外层目标差别。"
+    },
+    {
       "title": "补齐技术史与三条现代研究方向",
       "detail": "补录切片式布局、NPE、O-tree、2002/2004 混合尺寸布局流程与 ePlace-MS；重新核查部分规则性、数据流、学习式决策、拥塞评价和端到端基准文献，并加入 2026 年时序驱动分层布局工作。图表列示阅读方向而非未经验证的技术传承；原文与摘要证据明确区分。"
     },
@@ -4359,6 +5043,32 @@
         "DREAMPLACE19",
         "MC071",
         "MC086"
+      ]
+    },
+    {
+      "id": "wirelength",
+      "label": "线长模型与应用",
+      "papers": [
+        "GORDIAN91",
+        "GORDIANL91",
+        "LSE2001",
+        "FLUTE04",
+        "FASTPLACE05",
+        "B2B06",
+        "KRAFTWERK08",
+        "FLUTE08",
+        "NTUPLACE3",
+        "WA11",
+        "WA13",
+        "EPLACE14",
+        "MC022",
+        "MC059",
+        "DREAMPLACE19",
+        "MC070",
+        "MC082",
+        "MC086",
+        "MC090",
+        "MCTS25"
       ]
     }
   ],
@@ -4503,6 +5213,74 @@
       ]
     },
     {
+      "title": "线长建模与估计",
+      "range": "1991–2025",
+      "note": "三条分支按建模职责组织，不表示相邻节点有继承关系。宏布局器可在不同阶段同时使用多个模型；例如 AutoDMP 的外层使用 FLUTE，而解析布局使用平滑线长。HPWL 的首次提出年代未确认，不任意指定发明者。",
+      "periods": [
+        [
+          1991,
+          2000
+        ],
+        [
+          2001,
+          2005
+        ],
+        [
+          2006,
+          2010
+        ],
+        [
+          2011,
+          2014
+        ],
+        [
+          2015,
+          2019
+        ],
+        [
+          2020,
+          2025
+        ]
+      ],
+      "lanes": [
+        {
+          "label": "二次目标与多端网展开",
+          "ids": [
+            "GORDIAN91",
+            "GORDIANL91",
+            "FASTPLACE05",
+            "B2B06",
+            "KRAFTWERK08"
+          ]
+        },
+        {
+          "label": "几何估计与候选评价",
+          "ids": [
+            "FLUTE04",
+            "FLUTE08",
+            "MC022",
+            "MC070",
+            "MC082",
+            "MC086",
+            "MC090",
+            "MCTS25"
+          ]
+        },
+        {
+          "label": "连续平滑近似",
+          "ids": [
+            "LSE2001",
+            "NTUPLACE3",
+            "WA11",
+            "WA13",
+            "EPLACE14",
+            "MC059",
+            "DREAMPLACE19"
+          ]
+        }
+      ]
+    },
+    {
       "title": "拥塞模型、布线与评估",
       "range": "2007–2026",
       "note": "这是跨布局流程的支撑工作：预测模型不是布局编码，路由器也不是拥塞代理。布局算法可采用这些组件，需以具体论文的证据为准。",
@@ -4556,6 +5334,140 @@
         {
           "label": "端到端评估",
           "ids": [
+            "MC109"
+          ]
+        }
+      ]
+    }
+  ],
+  "wirelengthModels": [
+    {
+      "category": "多端网展开与求解模型",
+      "description": "解决如何把 hyperedge 转为适合数学求解的关系；并不直接给出一棵真实的布线树。",
+      "models": [
+        {
+          "name": "Clique / Star",
+          "formula": "Clique: Σ wᵢⱼ[(xᵢ−xⱼ)²+(yᵢ−yⱼ)²]；Star: Σ wᵢ[(xᵢ−xₛ)²+(yᵢ−yₛ)²]",
+          "purpose": "建立二端连接与稀疏二次规划矩阵；在适当权重和辅助点最优时，两者等价。",
+          "limit": "连接展开是数学模型；clique 边数 O(k²)、star O(k)，不是共享金属线长度。",
+          "papers": [
+            "GORDIAN91",
+            "FASTPLACE05"
+          ]
+        },
+        {
+          "name": "Bound2Bound",
+          "formula": "按轴选极值 pin，并按当前距离设置二次连接权重。",
+          "purpose": "在每轮参考布局点匹配 HPWL，同时降低连接数。",
+          "limit": "不是固定权重的全域精确线性目标；需更新极值和权重。",
+          "papers": [
+            "B2B06",
+            "KRAFTWERK08"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "几何线长估计",
+      "description": "给定实际 pin 坐标，估计无障碍二维互连长度。",
+      "models": [
+        {
+          "name": "HPWL",
+          "formula": "L(e) = max xᵢ − min xᵢ + max yᵢ − min yᵢ",
+          "purpose": "快速计算网包围盒半周长；适用于离散候选打分和基准评价。",
+          "limit": "未显式构造多端网拓扑；忽略障碍、层资源与布线竞争。二维无障碍下是 RSMT 下界。",
+          "papers": [
+            "NTUPLACE3",
+            "MCTS25",
+            "MC082"
+          ]
+        },
+        {
+          "name": "RMST",
+          "formula": "min_T Σ |xᵤ−xᵥ| + |yᵤ−yᵥ|；T 仅以原始终端为树顶点",
+          "purpose": "构造基于 Manhattan 距离的最小生成树。",
+          "limit": "不引入 Steiner 点，树权重是连接估计而非实际布线。",
+          "papers": [
+            "FLUTE08"
+          ]
+        },
+        {
+          "name": "RSMT / FLUTE",
+          "formula": "min_T Σ length(edge)；允许额外 Steiner 分支点",
+          "purpose": "更贴近理想共享布线拓扑；FLUTE 是快速构造/估计算法。",
+          "limit": "FLUTE 高度数网可能为近似，实际布线因障碍、规则、容量而不同。",
+          "papers": [
+            "FLUTE04",
+            "FLUTE08",
+            "MC086"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "连续优化的线长近似",
+      "description": "面向 QP 或梯度求解器的目标构造；模型精确性相对于其目标（如 HPWL）解释。",
+      "models": [
+        {
+          "name": "Quadratic",
+          "formula": "Σ wᵢⱼ[(xᵢ−xⱼ)²+(yᵢ−yⱼ)²]",
+          "purpose": "构造易于求解的凸二次连接代价。",
+          "limit": "长度的平方不是线性 Manhattan 线长；不能直接按 μm 解读目标值。",
+          "papers": [
+            "GORDIAN91",
+            "GORDIANL91",
+            "FASTPLACE05"
+          ]
+        },
+        {
+          "name": "Log-Sum-Exp (LSE)",
+          "formula": "Lγ(x) = γ [log Σ exp(xᵢ/γ) + log Σ exp(−xᵢ/γ)]；x/y 相加",
+          "purpose": "用光滑 max/min 近似 HPWL，γ > 0 控制光滑程度。",
+          "limit": "有限 γ 时通常高估坐标跨度（未归一化形式），实现需要数值稳定化。",
+          "papers": [
+            "LSE2001",
+            "NTUPLACE3",
+            "DREAMPLACE19"
+          ]
+        },
+        {
+          "name": "Weighted Average (WA)",
+          "formula": "Aγ(x) = Σ xᵢ exp(xᵢ/γ)/Σ exp(xᵢ/γ) − Σ xᵢ exp(−xᵢ/γ)/Σ exp(−xᵢ/γ)；x/y 相加",
+          "purpose": "以加权坐标均值逼近两个极值，适用于连续梯度优化。",
+          "limit": "有限 γ 时不超过对应坐标跨度；不保证凸性或真实 routed WL 更优。",
+          "papers": [
+            "WA11",
+            "WA13",
+            "EPLACE14",
+            "MC059",
+            "DREAMPLACE19"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "宏布局中的专门建模与实际评价",
+      "description": "同一 placer 的内层目标、外层选优和后端结果须区分。",
+      "models": [
+        {
+          "name": "Macro-aware wirelength",
+          "formula": "按具体论文记录；不设置一个通用公式。",
+          "purpose": "结合宏 pin、标准单元相关连接、宏阻挡或 porosity；CP-tree 摘要提供明确先例。",
+          "limit": "CP-tree 具体模型全文待核；不得据题目补写其计算式。",
+          "papers": [
+            "MC022",
+            "MC070",
+            "MC097"
+          ]
+        },
+        {
+          "name": "Routed wirelength / learned ranking",
+          "formula": "由指定 GR 或 DR 流程得到的线段长度，或基于该指标训练的预测结果。",
+          "purpose": "用于后端评价及候选排序；必须记录标签来源和布线阶段。",
+          "limit": "GR 与 DR 指标不可无条件互换；学习预测也不等于执行实际 routing。",
+          "papers": [
+            "MC090",
+            "MC086",
             "MC109"
           ]
         }

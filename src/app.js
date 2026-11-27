@@ -33,11 +33,15 @@ function renderTimeline(){
    return '<article class="history-block"><div class="history-heading"><div><div class="eyebrow">'+esc(group.range)+'</div><h3>'+esc(group.title)+'</h3></div></div><p class="history-note">'+esc(group.note)+'</p><div class="history-scroll" tabindex="0" role="region" aria-label="'+esc(group.title)+' 年代对照表"><table class="history-table" style="min-width:'+String(155+group.periods.length*142)+'px"><thead><tr>'+headers+'</tr></thead><tbody>'+rows+'</tbody></table></div>'+links+'</article>';
  }).join('');
 }
+function renderWirelength(){
+ const el=$('wirelength-models');if(!el)return;
+ el.innerHTML=A.wirelengthModels.map(g=>'<article class="wire-model-group"><h3>'+esc(g.category)+'</h3><p class="history-note">'+esc(g.description)+'</p><div class="table-frame"><table class="wire-model-table"><thead><tr><th scope="col">模型</th><th scope="col">数学形式 / 定义</th><th scope="col">用途</th><th scope="col">限制及文献</th></tr></thead><tbody>'+g.models.map(m=>'<tr><th scope="row">'+esc(m.name)+'</th><td class="wire-formula">'+esc(m.formula)+'</td><td>'+esc(m.purpose)+'</td><td>'+esc(m.limit)+'<div class="wire-refs">'+m.papers.map(id=>paperButton(id)).join('')+'</div></td></tr>').join('')+'</tbody></table></div></article>').join('');
+}
 function initial(){
  $('review-date').textContent=A.meta.reviewDate;
  const full=A.papers.filter(p=>p.access==='fulltext').length;
  $('coverage').innerHTML=[[A.papers.length,'本次核查记录'],[full,'原文方法核查'],[A.relations.length,'有定位的关系'],[A.pending.length,'待核查索引']].map(([n,t])=>`<div class="stat"><strong>${n}</strong><span>${t}</span></div>`).join('');
- $('coverage-note').textContent=`核查范围：${full} 条原文方法记录、${A.papers.filter(p=>p.access==='abstract').length} 条摘要记录、${A.papers.filter(p=>p.access==='documentation').length} 条官方文档。已核查记录包括基础方法及分开的出版版本；其余 ${A.pending.length} 条旧索引保留为检索线索。`;
+ $('coverage-note').textContent=`核查范围：${full} 条原文方法记录、${A.papers.filter(p=>p.access==='abstract').length} 条摘要记录、${A.papers.filter(p=>p.access==='metadata').length} 条题录记录、${A.papers.filter(p=>p.access==='documentation').length} 条官方文档。已核查记录包括基础方法及分开的出版版本；其余 ${A.pending.length} 条旧索引保留为检索线索。`;
  $('axes').innerHTML=A.axes.map(a=>`<article class="axis"><div class="axis-top"><span class="axis-code">${esc(a.number)}</span><h3>${esc(a.label)}</h3></div><p>${esc(a.definition)}</p><div class="axis-examples">${a.examples.map(e=>`<button class="chip" data-open="${esc(e.paper)}">${esc(e.label)}</button>`).join('')}</div><div class="axis-boundary">${esc(a.boundary)}</div></article>`).join('');
  $('matrix-tabs').innerHTML=A.matrixGroups.map(g=>`<button data-matrix="${esc(g.id)}" aria-pressed="${g.id===state.matrix}">${esc(g.label)}</button>`).join('');
  const relIDs=new Set(A.relations.flatMap(r=>[r.from,r.to]));
@@ -45,7 +49,7 @@ function initial(){
  $('role-filter').insertAdjacentHTML('beforeend',Object.entries(A.roles).map(([k,v])=>`<option value="${esc(k)}">${esc(v)}</option>`).join(''));
  $('count-reviewed').textContent=A.papers.length;$('count-pending').textContent=A.pending.length;
  $('revision-list').innerHTML=A.revision.map((r,i)=>`<article class="revision-item"><span>${String(i+1).padStart(2,'0')}</span><div><h3>${esc(r.title)}</h3><p>${esc(r.detail)}</p></div></article>`).join('');
- renderTimeline();renderMatrix();renderGraph();renderRelations();renderComparison();renderLibrary();
+ renderTimeline();renderWirelength();renderMatrix();renderGraph();renderRelations();renderComparison();renderLibrary();
 }
 function renderMatrix(){
  const g=A.matrixGroups.find(g=>g.id===state.matrix);

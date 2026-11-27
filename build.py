@@ -15,6 +15,8 @@ for p in model['papers']:
  assert p.get('evidence') and p.get('method') and p.get('access'),p['id']
  for e in p['evidence']:assert e.get('url') and e.get('locator') and e.get('claim'),p['id']
 for group in model['matrixGroups']:assert all(p in ids for p in group['papers'])
+for group in model.get('wirelengthModels', []):
+ for item in group['models']:assert all(p in ids for p in item['papers']),item['name']
 encoded=json.dumps(model,ensure_ascii=False,separators=(',',':')).replace('<','\\u003c').replace('\u2028','\\u2028').replace('\u2029','\\u2029')
 html=(root/'src/template.html').read_text().replace('__STYLES__',(root/'src/styles.css').read_text()).replace('__DATA__',encoded).replace('__APP__',(root/'src/app.js').read_text())
 (root/'index.html').write_text(html,encoding='utf-8')

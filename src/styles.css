@@ -28,3 +28,5 @@
 .history-edge a{font-size:.7rem;text-decoration:underline}
 .history-arrow{color:#75887a}
 @media(max-width:700px){.history-block{padding:12px 10px}.history-heading h3{font-size:1rem}.history-note{font-size:.78rem}}
+
+.wire-model-group{margin:20px 0 24px}.wire-model-group h3{font-size:1.04rem;font-weight:650;margin-bottom:5px}.wire-model-table{min-width:820px;width:100%;border-collapse:collapse;table-layout:fixed;font-size:.8rem;line-height:1.6}.wire-model-table th,.wire-model-table td{border-bottom:1px solid var(--line,#d6dcd8);padding:11px;vertical-align:top;text-align:left;overflow-wrap:anywhere}.wire-model-table thead th{background:#edf1ee;color:#34463c}.wire-model-table th:first-child{width:16%}.wire-model-table th:nth-child(2){width:31%}.wire-model-table th:nth-child(3){width:23%}.wire-model-table .wire-formula{font-family:Consolas,monospace;color:#254237;background:#f7f9f7}.wire-refs{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:8px}.wire-refs .paper-link{font-size:.73rem}
