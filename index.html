@@ -45,14 +45,14 @@
 <header class="masthead">
   <div class="top-inner">
     <a class="brand" href="#main" aria-label="宏布局研究图谱首页"><span class="brand-symbol" aria-hidden="true"><i></i><i></i><i></i></span><span>Macro Placement<span class="brand-sub">RESEARCH ATLAS</span></span></a>
-    <nav aria-label="主导航"><a href="#history">技术演进</a><a href="#taxonomy">技术分类</a><a href="#methods">方法构成</a><a href="#wirelength">线长模型</a><a href="#relations">文献关系</a><a href="#comparison">原文对读</a><a href="#library">文献库</a><a href="#revision">修订记录</a></nav>
+    <nav aria-label="主导航"><a href="#history">技术演进</a><a href="#taxonomy">技术分类</a><a href="#methods">方法构成</a><a href="#wirelength">线长模型</a><a href="#relations">文献关系</a><a href="#comparison">原文对读</a><a href="#library">文献库</a><a href="#revision">核查规范</a></nav>
     <a class="source-link" href="https://github.com/pc666/macro-research-atlas" target="_blank" rel="noopener noreferrer">项目仓库 <span aria-hidden="true">↗</span></a>
   </div>
 </header>
 <main id="main">
   <section class="hero page-width" aria-labelledby="page-title">
     <div class="hero-main"><div class="eyebrow">PHYSICAL DESIGN / LITERATURE & METHODS</div><h1 id="page-title">宏布局研究图谱</h1><p class="hero-description">从问题定义、方法构成与实验条件出发，<br class="desktop-break">建立可以逐条追溯的文献关系。</p><div class="hero-actions"><a class="button primary" href="#history">查看技术演进 <span aria-hidden="true">↓</span></a><a class="button" href="#methods">方法构成对照</a></div></div>
-    <aside class="edition"><div class="edition-top"><span class="edition-label">REVISED EDITION</span><span class="edition-number">3.2</span></div><dl><div><dt>核对日期</dt><dd id="review-date"></dd></div><div><dt>组织单位</dt><dd>具体出版物与方法组件</dd></div><div><dt>证据要求</dt><dd>来源、定位、支持的结论</dd></div></dl><p>会议版、期刊版与预印本分别标识。方法说明以实际核对的版本为准。</p></aside>
+    <aside class="edition"><div class="edition-top"><span class="edition-label">RESEARCH SCOPE</span></div><dl><div><dt>核对日期</dt><dd id="review-date"></dd></div><div><dt>组织单位</dt><dd>具体出版物与方法组件</dd></div><div><dt>证据要求</dt><dd>来源、定位、支持的结论</dd></div></dl><p>会议版、期刊版与预印本分别标识。方法说明以实际核对的版本为准。</p></aside>
   </section>
   <div class="page-width"><div class="coverage" id="coverage" aria-label="核查范围"></div><p class="coverage-note" id="coverage-note"></p></div>
 
@@ -114,7 +114,7 @@
     </div>
   </section>
 
-  <section id="revision" class="page-width section revision-section" aria-labelledby="revision-title"><div class="section-heading"><div><div class="eyebrow">06 / EDITORIAL RECORD</div><h2 id="revision-title">本次修订与核查规范</h2></div><button class="button" id="download-data">下载核查数据 <span aria-hidden="true">↓</span></button></div><div class="revision-grid"><div id="revision-list"></div><aside class="standards"><h3>收录与证据规范</h3><ol><li>一个记录对应一个明确的出版版本。</li><li>作者、标题、年份与 DOI 必须相互匹配。</li><li>每条方法关系写出组件、原文位置与支持的结论。</li><li>摘要级证据只支持摘要明确说明的内容。</li><li>性能结论同时记录 benchmark、指标和后端流程。</li><li>未核实的内容标明范围，不以模板文字补全。</li></ol><p>本页是持续核查的研究索引。核查过题录、读过方法章节与完成独立复现，是不同层面的工作；本站不将文献阅读标为算法复现。</p></aside></div></section>
+  <section id="revision" class="page-width section revision-section" aria-labelledby="revision-title"><div class="section-heading"><div><div class="eyebrow">06 / RESEARCH STANDARDS</div><h2 id="revision-title">文献核查规范</h2></div><button class="button" id="download-data">下载核查数据 <span aria-hidden="true">↓</span></button></div><div class="standards-layout"><aside class="standards"><h3>收录与证据规范</h3><ol><li>一个记录对应一个明确的出版版本。</li><li>作者、标题、年份与 DOI 必须相互匹配。</li><li>每条方法关系写出组件、原文位置与支持的结论。</li><li>摘要级证据只支持摘要明确说明的内容。</li><li>性能结论同时记录 benchmark、指标和后端流程。</li><li>未核实的内容标明范围，不以模板文字补全。</li></ol><p>本页是持续核查的研究索引。核查过题录、读过方法章节与完成独立复现，是不同层面的工作；本站不将文献阅读标为算法复现。</p></aside></div></section>
 </main>
 <footer><div class="page-width footer-inner"><div><strong>Macro Placement Research Atlas</strong><p>具体方法 · 明确版本 · 可定位证据</p></div><div><a href="https://github.com/pc666/macro-research-atlas" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="data/atlas.json" target="_blank" rel="noopener noreferrer">结构化数据 ↗</a><a href="#main">返回顶部 ↑</a></div></div></footer>
 <dialog id="paper-dialog" aria-labelledby="dialog-title"><div class="dialog-shell"><div class="dialog-tools"><span id="dialog-kicker"></span><button id="close-dialog" class="close-button" aria-label="关闭文献详情">×</button></div><div id="dialog-content"></div></div></dialog>
@@ -170,7 +170,6 @@ function initial(){
  $('graph-focus').innerHTML=A.papers.filter(p=>relIDs.has(p.id)).sort((a,b)=>(b.year||9999)-(a.year||9999)||a.id.localeCompare(b.id)).map(p=>`<option value="${esc(p.id)}" ${p.id===state.graph?'selected':''}>${p.year||'文档'} · ${esc(p.short)}</option>`).join('');
  $('role-filter').insertAdjacentHTML('beforeend',Object.entries(A.roles).map(([k,v])=>`<option value="${esc(k)}">${esc(v)}</option>`).join(''));
  $('count-reviewed').textContent=A.papers.length;$('count-pending').textContent=A.pending.length;
- $('revision-list').innerHTML=A.revision.map((r,i)=>`<article class="revision-item"><span>${String(i+1).padStart(2,'0')}</span><div><h3>${esc(r.title)}</h3><p>${esc(r.detail)}</p></div></article>`).join('');
  renderTimeline();renderWirelength();renderMatrix();renderGraph();renderRelations();renderComparison();renderLibrary();
 }
 function renderMatrix(){
@@ -264,7 +263,7 @@ $('paper-search').addEventListener('input',e=>{state.query=e.target.value;state.
 $('reset-filters').addEventListener('click',()=>{Object.assign(state,{query:'',role:'all',access:'all',sort:'desc',page:1});$('paper-search').value='';$('role-filter').value='all';$('access-filter').value='all';$('year-sort').value='desc';renderLibrary();});
 $('page-prev').addEventListener('click',()=>{state.page--;renderLibrary();$('library').scrollIntoView({behavior:'smooth'});});
 $('page-next').addEventListener('click',()=>{state.page++;renderLibrary();$('library').scrollIntoView({behavior:'smooth'});});
-$('download-data').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(A,null,2)],{type:'application/json;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='macro-placement-atlas-v3.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+$('download-data').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(A,null,2)],{type:'application/json;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='macro-placement-atlas.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
 window.addEventListener('hashchange',()=>{if(location.hash.startsWith('#paper-'))openPaper(decodeURIComponent(location.hash.slice(7)));});
 initial();
 if(location.hash.startsWith('#paper-'))openPaper(decodeURIComponent(location.hash.slice(7)));

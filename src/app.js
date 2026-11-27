@@ -48,7 +48,6 @@ function initial(){
  $('graph-focus').innerHTML=A.papers.filter(p=>relIDs.has(p.id)).sort((a,b)=>(b.year||9999)-(a.year||9999)||a.id.localeCompare(b.id)).map(p=>`<option value="${esc(p.id)}" ${p.id===state.graph?'selected':''}>${p.year||'文档'} · ${esc(p.short)}</option>`).join('');
  $('role-filter').insertAdjacentHTML('beforeend',Object.entries(A.roles).map(([k,v])=>`<option value="${esc(k)}">${esc(v)}</option>`).join(''));
  $('count-reviewed').textContent=A.papers.length;$('count-pending').textContent=A.pending.length;
- $('revision-list').innerHTML=A.revision.map((r,i)=>`<article class="revision-item"><span>${String(i+1).padStart(2,'0')}</span><div><h3>${esc(r.title)}</h3><p>${esc(r.detail)}</p></div></article>`).join('');
  renderTimeline();renderWirelength();renderMatrix();renderGraph();renderRelations();renderComparison();renderLibrary();
 }
 function renderMatrix(){
@@ -142,7 +141,7 @@ $('paper-search').addEventListener('input',e=>{state.query=e.target.value;state.
 $('reset-filters').addEventListener('click',()=>{Object.assign(state,{query:'',role:'all',access:'all',sort:'desc',page:1});$('paper-search').value='';$('role-filter').value='all';$('access-filter').value='all';$('year-sort').value='desc';renderLibrary();});
 $('page-prev').addEventListener('click',()=>{state.page--;renderLibrary();$('library').scrollIntoView({behavior:'smooth'});});
 $('page-next').addEventListener('click',()=>{state.page++;renderLibrary();$('library').scrollIntoView({behavior:'smooth'});});
-$('download-data').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(A,null,2)],{type:'application/json;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='macro-placement-atlas-v3.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+$('download-data').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(A,null,2)],{type:'application/json;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='macro-placement-atlas.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
 window.addEventListener('hashchange',()=>{if(location.hash.startsWith('#paper-'))openPaper(decodeURIComponent(location.hash.slice(7)));});
 initial();
 if(location.hash.startsWith('#paper-'))openPaper(decodeURIComponent(location.hash.slice(7)));
