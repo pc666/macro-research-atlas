@@ -1,11 +1,11 @@
 {
   "meta": {
     "schemaVersion": 3,
-    "revision": "3.0",
-    "reviewDate": "2026-11-26",
+    "revision": "3.1",
+    "reviewDate": "2026-11-27",
     "sourceCommit": "b489c86cc07ca7847c29ce91d0cdc764915c398b",
     "sourceCorpusCount": 128,
-    "scope": "本次核查集与待核查索引分别展示；方法证据以明确出版版本为准。"
+    "scope": "本次核查集、技术演进阅读方向、具体文献关系及待核查索引独立记录；不根据年代相邻或作者重合推定继承。"
   },
   "roles": {
     "foundation": "基础几何表示",
@@ -13,7 +13,8 @@
     "mixed": "混合尺寸 / 全局布局",
     "evaluation": "需求估计 / 候选评价",
     "routing": "全局布线",
-    "implementation": "工程实现文档"
+    "implementation": "工程实现文档",
+    "assessment": "评估基准与实验复核"
   },
   "axes": [
     {
@@ -23,6 +24,10 @@
       "definition": "描述模块位置、相对拓扑或占用与空白空间的组织方式。",
       "boundary": "区分布局编码与几何查询数据结构。",
       "examples": [
+        {
+          "label": "Slicing structure",
+          "paper": "OTTEN1982"
+        },
         {
           "label": "Corner Stitching",
           "paper": "CS1984"
@@ -1789,6 +1794,620 @@
         }
       ],
       "reviewDate": "2026-11-26"
+    },
+    {
+      "short": "Slicing structure",
+      "title": "Automatic Floorplan Design",
+      "authors": "Ralph H. J. M. Otten",
+      "year": 1982,
+      "venue": "DAC 1982, pp.261–267",
+      "doi": "10.1109/DAC.1982.1585510",
+      "url": "https://research.ibm.com/publications/automatic-floorplan-design",
+      "role": "foundation",
+      "scope": "自顶向下模块面积分配与切片式 floorplanning。",
+      "method": "由网表距离矩阵构造平面嵌入，再导出切片结构树；给定芯片长宽比进行面积优化。",
+      "components": {
+        "representation": "Slicing structure；结构树及 shorthand tree",
+        "connectivity": "由 netlist 生成距离矩阵",
+        "allocation": "顶层模块面积分配",
+        "search": "平面嵌入与切片结构构造",
+        "legalization": "—",
+        "evaluation": "给定长宽比的面积；可结合布线空间估计"
+      },
+      "evidence": [
+        {
+          "url": "https://research.ibm.com/publications/automatic-floorplan-design",
+          "locator": "官方摘要",
+          "claim": "明确描述 slicing structure 的结构树、网表距离矩阵及面积目标。",
+          "access": "abstract"
+        },
+        {
+          "url": "https://doi.org/10.1109/DAC.1982.1585510",
+          "locator": "出版题录",
+          "claim": "1982 DAC 论文 DOI。",
+          "access": "metadata"
+        }
+      ],
+      "limits": [
+        "基础 floorplanning 文献，不是现代混合尺寸宏布局器；这里仅核对摘要。"
+      ],
+      "id": "OTTEN1982",
+      "reviewDate": "2026-11-27",
+      "version": "题录及方法核查依据见来源",
+      "access": "abstract"
+    },
+    {
+      "short": "Normalized Polish Expression",
+      "title": "A New Algorithm for Floorplan Design",
+      "authors": "D. F. Wong; C. L. Liu",
+      "year": 1986,
+      "venue": "DAC 1986, pp.101–107",
+      "doi": "10.1145/318013.318030",
+      "url": "https://doi.org/10.1145/318013.318030",
+      "role": "foundation",
+      "scope": "切片式 floorplan 的表示与组合搜索。",
+      "method": "使用 normalized Polish expressions 表达切片布局，并以 simulated annealing 优化面积与线长。",
+      "components": {
+        "representation": "Normalized Polish Expression（切片布局编码）",
+        "connectivity": "—",
+        "allocation": "—",
+        "search": "Simulated annealing",
+        "legalization": "—",
+        "evaluation": "面积及线长"
+      },
+      "evidence": [
+        {
+          "url": "https://scholars.hkbu.edu.hk/en/publications/a-new-algorithm-for-floorplan-design/",
+          "locator": "机构出版记录及摘要",
+          "claim": "NPE、模拟退火和面积/线长目标。",
+          "access": "abstract"
+        },
+        {
+          "url": "https://doi.org/10.1145/318013.318030",
+          "locator": "出版题录",
+          "claim": "会议及 DOI。",
+          "access": "metadata"
+        }
+      ],
+      "limits": [
+        "不将切片式搜索等同于一般非切片宏布局；未核查具体 move 定义。"
+      ],
+      "id": "NPE1986",
+      "reviewDate": "2026-11-27",
+      "version": "题录及方法核查依据见来源",
+      "access": "abstract"
+    },
+    {
+      "short": "O-tree",
+      "title": "An O-tree representation of non-slicing floorplan and its applications",
+      "authors": "Pei-Ning Guo; Chung-Kuan Cheng; Takeshi Yoshimura",
+      "year": 1999,
+      "venue": "DAC 1999, pp.268–273",
+      "doi": "10.1145/309847.309928",
+      "url": "https://doi.org/10.1145/309847.309928",
+      "role": "foundation",
+      "scope": "非切片矩形模块布局表示。",
+      "method": "用有序树表示 admissible non-slicing floorplan，支持紧凑布局的编码与解码。",
+      "components": {
+        "representation": "O-tree；有序树表示",
+        "connectivity": "—",
+        "allocation": "—",
+        "search": "—",
+        "legalization": "几何解码与紧凑化",
+        "evaluation": "—"
+      },
+      "evidence": [
+        {
+          "url": "https://ieeexplore.ieee.org/abstract/document/781324",
+          "locator": "出版摘要",
+          "claim": "O-tree 表示非切片 floorplan 的目的及表示性质。",
+          "access": "abstract"
+        },
+        {
+          "url": "https://doi.org/10.1145/309847.309928",
+          "locator": "ACM 题录",
+          "claim": "作者、年份、页码及 DOI。",
+          "access": "metadata"
+        }
+      ],
+      "limits": [
+        "表示复杂度及算法优劣尚未逐项核对原文实验。"
+      ],
+      "id": "OTREE1999",
+      "reviewDate": "2026-11-27",
+      "version": "题录及方法核查依据见来源",
+      "access": "abstract"
+    },
+    {
+      "short": "Consistent Macro-Block Placement",
+      "title": "Consistent Placement of Macro-Blocks Using Floorplanning and Standard-Cell Placement",
+      "authors": "Saurabh N. Adya; Igor L. Markov",
+      "year": 2002,
+      "venue": "ISPD 2002, pp.12–17",
+      "doi": "10.1145/505388.505392",
+      "url": "https://www.cecs.uci.edu/~papers/compendium94-03/papers/2002/ispd02/pdffiles/01_2.pdf",
+      "role": "macro",
+      "scope": "包含宏和标准单元的布局流程，利用固定轮廓 floorplanning 处理宏重叠。",
+      "method": "先获得初始布局信息，随后进行 fixed-outline floorplanning，固定宏后重新布局标准单元。",
+      "components": {
+        "representation": "固定轮廓 floorplanning",
+        "connectivity": "—",
+        "allocation": "在指定芯片轮廓内确定宏位置",
+        "search": "初始布局与宏 floorplanning 分阶段",
+        "legalization": "宏 floorplanning 后重新进行标准单元布局",
+        "evaluation": "—"
+      },
+      "evidence": [
+        {
+          "url": "https://www.cecs.uci.edu/~papers/compendium94-03/papers/2002/ispd02/pdffiles/01_2.pdf",
+          "locator": "p.12，摘要",
+          "claim": "结合标准单元布局与固定轮廓 floorplanning 处理混合尺寸设计。",
+          "access": "abstract"
+        },
+        {
+          "url": "https://cc.ee.ntu.edu.tw/~ywchang/Papers/tcad08-mptree.pdf",
+          "locator": "§I–II、Fig.2",
+          "claim": "后续 MP-tree 正文将该工作列为先前流程并讨论方法差别。",
+          "access": "fulltext"
+        },
+        {
+          "url": "https://doi.org/10.1145/505388.505392",
+          "locator": "出版题录",
+          "claim": "ISPD 2002 出版信息。",
+          "access": "metadata"
+        }
+      ],
+      "limits": [
+        "阶段顺序相似不代表 MP-tree 采用了其全部算法；未将两篇论文的 benchmark 结果直接比较。"
+      ],
+      "id": "ADYA2002",
+      "reviewDate": "2026-11-27",
+      "version": "题录及方法核查依据见来源",
+      "access": "abstract"
+    },
+    {
+      "short": "Partitioning × Floorplanning",
+      "title": "Unification of Partitioning, Placement and Floorplanning",
+      "authors": "Saurabh N. Adya; Shubhyant Chaturvedi; Jarrod A. Roy; David A. Papa; Igor L. Markov",
+      "year": 2004,
+      "venue": "ICCAD 2004, pp.550–557",
+      "doi": "10.1109/ICCAD.2004.1382639",
+      "url": "https://web.eecs.umich.edu/~imarkov/pubs/conf/iccad04-floorplace.pdf",
+      "role": "mixed",
+      "scope": "同时处理 partitioning、floorplanning 和混合尺寸布局。",
+      "method": "在 min-cut placement 框架中集成 fixed-outline floorplanning，以处理标准单元与大型模块的尺度差异。",
+      "components": {
+        "representation": "—",
+        "connectivity": "—",
+        "allocation": "递归划分与固定轮廓 floorplanning",
+        "search": "min-cut placement 与 floorplanning 集成",
+        "legalization": "—",
+        "evaluation": "—"
+      },
+      "evidence": [
+        {
+          "url": "https://web.eecs.umich.edu/~imarkov/pubs/conf/iccad04-floorplace.pdf",
+          "locator": "首页 Abstract",
+          "claim": "将 min-cut placement 与 fixed-outline floorplanning 集成以求解一般布局问题。",
+          "access": "abstract"
+        },
+        {
+          "url": "https://dblp.org/rec/conf/iccad/AdyaCRPM04",
+          "locator": "出版题录",
+          "claim": "作者、ICCAD 2004、页码及 DOI。",
+          "access": "metadata"
+        }
+      ],
+      "limits": [
+        "摘要支持框架级描述；未核查全部划分规则、约束和实验设置。"
+      ],
+      "id": "CAPO2004",
+      "reviewDate": "2026-11-27",
+      "version": "题录及方法核查依据见来源",
+      "access": "abstract"
+    },
+    {
+      "short": "ePlace-MS",
+      "title": "ePlace-MS: Electrostatics-Based Placement for Mixed-Size Circuits",
+      "authors": "Jingwei Lu; Hao Zhuang; Pengwen Chen; Hongliang Chang; Chin-Chih Chang; Yiu-Chung Wong; Lu Sha; Dennis Huang; Yufeng Luo; Chin-Chi Teng; Chung-Kuan Cheng",
+      "year": 2015,
+      "venue": "IEEE TCAD 34(5):685–698, May 2015",
+      "doi": "10.1109/TCAD.2015.2391263",
+      "url": "https://ieeexplore.ieee.org/document/7008518/",
+      "role": "mixed",
+      "scope": "平坦解析混合尺寸全局布局。",
+      "method": "将 eDensity 扩展到混合尺寸电路，使用 Nesterov 非线性求解与预条件；随后采用 SA 合法化宏，并重新优化标准单元全局布局。",
+      "components": {
+        "representation": "连续坐标；eDensity 密度建模（非 floorplan 拓扑编码）",
+        "connectivity": "—",
+        "allocation": "—",
+        "search": "Nesterov、步长回溯及非线性预条件",
+        "legalization": "SA 宏合法化；第二阶段标准单元全局布局",
+        "evaluation": "线长与运行时间；摘要报告 16 个混合尺寸基准"
+      },
+      "evidence": [
+        {
+          "url": "https://ieeexplore.ieee.org/document/7008518/",
+          "locator": "IEEE Abstract",
+          "claim": "解析布局、密度扩展、Nesterov、宏 SA 合法化及第二阶段标准单元布局。作者报告相对 NTUplace3 的线长与运行时间比较。",
+          "access": "abstract"
+        },
+        {
+          "url": "https://cseweb.ucsd.edu/classes/fa23/cse248-a/papers/placement/ePlace-MS.pdf",
+          "locator": "p.685 首页",
+          "claim": "作者、卷期及 DOI。",
+          "access": "metadata"
+        }
+      ],
+      "limits": [
+        "本条根据摘要核查；密度约束不等同于路由拥塞模型。"
+      ],
+      "id": "EPLACEMS",
+      "reviewDate": "2026-11-27",
+      "version": "题录及方法核查依据见来源",
+      "access": "abstract"
+    },
+    {
+      "id": "MC058",
+      "year": 2019,
+      "title": "Regularity-aware routability-driven macro placement methodology for mixed-size circuits with obstacles",
+      "authors": "Jai-Ming Lin; You-Lun Deng; Szu-Ting Li; Bo-Heng Yu; Li-Yen Chang; Te-Wei Peng",
+      "venue": "IEEE TVLSI 27(1):57–68, January 2019 (online October 2018)",
+      "doi": "10.1109/TVLSI.2018.2867833",
+      "url": "https://researchoutput.ncku.edu.tw/en/publications/regularity-aware-routability-driven-macro-placement-methodology-f/",
+      "access": "abstract",
+      "short": "Regularity-aware Macro Placement",
+      "role": "macro",
+      "scope": "带障碍物的 mixed-size 宏布局及规则性。",
+      "method": "将相关宏的规则排列、宏布局与可布线性放在同一流程中；采用确定性合法化思路保留初始原型中的空间组织。",
+      "components": {
+        "representation": "—",
+        "connectivity": "考虑相关宏的分组",
+        "allocation": "保持宏规则排列的空间组织",
+        "search": "—",
+        "legalization": "确定性宏合法化",
+        "evaluation": "规则性与 routability"
+      },
+      "evidence": [
+        {
+          "url": "https://researchoutput.ncku.edu.tw/en/publications/regularity-aware-routability-driven-macro-placement-methodology-f/",
+          "locator": "机构出版记录 / Abstract",
+          "claim": "带障碍物的混合尺寸宏布局，规则性导向的宏合法化方法。",
+          "access": "abstract"
+        }
+      ],
+      "limits": [
+        "本条只给出摘要支持的流程，不补写约束或具体代价公式。"
+      ],
+      "reviewDate": "2026-11-27",
+      "version": "题录及方法核查依据见来源"
+    },
+    {
+      "id": "MC072",
+      "year": 2021,
+      "title": "Multi-level Dataflow-Driven Macro Placement Guided by RTL Structure and Analytical Methods",
+      "authors": "Alex Vidal-Obiols; Jordi Cortadella; Jordi Petit; Marc Galceran-Oms; Ferran Martorell",
+      "venue": "IEEE TCAD 40(12), pp. 2542–2555",
+      "doi": "10.1109/TCAD.2020.3047724",
+      "url": "https://upcommons.upc.edu/server/api/core/bitstreams/eb9a415b-1a97-441a-8c4a-9848f42282c0/content",
+      "access": "abstract",
+      "short": "HiDaP · TCAD",
+      "role": "macro",
+      "scope": "RTL 结构和数据流引导的多层次宏布局。",
+      "method": "基于 RTL 模块间数据流及层次结构构造多层布局问题，并使用解析布局方法确定位置。",
+      "components": {
+        "representation": "—",
+        "connectivity": "RTL 层次及数据流 affinity",
+        "allocation": "多层次划分与宏的空间组织",
+        "search": "解析布局方法",
+        "legalization": "—",
+        "evaluation": "—"
+      },
+      "evidence": [
+        {
+          "url": "https://upcommons.upc.edu/entities/publication/97276640-31e7-4328-a984-b6760f61bf8d",
+          "locator": "UPC 出版记录及摘要",
+          "claim": "RTL 结构、多层次数据流驱动宏布局及解析方法。",
+          "access": "abstract"
+        }
+      ],
+      "limits": [
+        "未把同名或相近作者关系当作正式版本扩展；具体连接权重及实验条件需核查全文。"
+      ],
+      "reviewDate": "2026-11-27",
+      "version": "题录及方法核查依据见来源"
+    },
+    {
+      "id": "MC050",
+      "year": 2018,
+      "title": "RouteNet: Routability Prediction for Mixed-size Designs using Convolutional Neural Network",
+      "authors": "Zhiyao Xie; Yu-Hung Huang; Guan-Qi Fang; Haoxing Ren; Shao-Yun Fang; Yiran Chen; Jiang Hu",
+      "venue": "ICCAD 2018",
+      "doi": "10.1145/3240765.3240843",
+      "url": "https://research.nvidia.com/publication/2018-11_routenet-routability-prediction-mixed-size-designs-using-convolutional-neural",
+      "access": "abstract",
+      "short": "RouteNet",
+      "role": "evaluation",
+      "scope": "混合尺寸设计可布线性预测。",
+      "method": "使用卷积神经网络，根据布局相关输入预测 routability 及潜在 DRC 热点。",
+      "components": {
+        "representation": "—",
+        "connectivity": "—",
+        "allocation": "—",
+        "search": "—",
+        "legalization": "—",
+        "evaluation": "CNN 预测布线可行性/热点"
+      },
+      "evidence": [
+        {
+          "url": "https://research.nvidia.com/publication/2018-11_routenet-routability-prediction-mixed-size-designs-using-convolutional-neural",
+          "locator": "作者机构出版页 / Abstract",
+          "claim": "以 CNN 为混合尺寸设计进行可布线性预测。",
+          "access": "abstract"
+        }
+      ],
+      "limits": [
+        "是评价/预测模型，不是独立的宏坐标优化算法；不把预测准确性等同于后端优化收益。"
+      ],
+      "reviewDate": "2026-11-27",
+      "version": "题录及方法核查依据见来源"
+    },
+    {
+      "id": "MC060",
+      "year": 2019,
+      "title": "Routability-Driven Macro Placement with Embedded CNN-Based Prediction Model",
+      "authors": "Yu-Hung Huang; Zhiyao Xie; Guan-Qi Fang; Tao-Chun Yu; Haoxing Ren; Shao-Yun Fang; Yiran Chen; Jiang Hu",
+      "venue": "DATE 2019, pp. 180–185",
+      "doi": "10.23919/DATE.2019.8715126",
+      "url": "https://zhiyaoxie.com/files/DATE19_Macro.pdf",
+      "access": "abstract",
+      "short": "CNN-guided SA",
+      "role": "macro",
+      "scope": "将详细布线相关预测模型嵌入宏布局优化。",
+      "method": "将 CNN 预测的 routability 代价引入 simulated annealing 宏布局搜索，面向详细布线 DRC 相关问题。",
+      "components": {
+        "representation": "—",
+        "connectivity": "—",
+        "allocation": "—",
+        "search": "Simulated annealing",
+        "legalization": "—",
+        "evaluation": "CNN 预测布线相关代价"
+      },
+      "evidence": [
+        {
+          "url": "https://past.date-conference.com/proceedings-archive/2019/html/0521.html",
+          "locator": "DATE 2019 官方摘要",
+          "claim": "在 macro placer 中嵌入 CNN-based routability prediction model。",
+          "access": "abstract"
+        },
+        {
+          "url": "https://zhiyaoxie.com/files/DATE19_Macro.pdf",
+          "locator": "p.180，首页摘要",
+          "claim": "宏布局与详细布线相关预测目标。",
+          "access": "abstract"
+        }
+      ],
+      "limits": [
+        "预测输出不能替代实际 detailed routing；未依据作者重合推定与 RouteNet 的直接算法继承关系。"
+      ],
+      "reviewDate": "2026-11-27",
+      "version": "题录及方法核查依据见来源"
+    },
+    {
+      "id": "MC069",
+      "year": 2021,
+      "title": "A graph placement methodology for fast chip design",
+      "authors": "Azalia Mirhoseini et al.",
+      "venue": "Nature 594, pp. 207–212",
+      "doi": "10.1038/s41586-021-03544-w",
+      "url": "https://www.nature.com/articles/s41586-021-03544-w",
+      "access": "abstract",
+      "short": "Circuit Training",
+      "role": "macro",
+      "scope": "将芯片 floorplanning 建模为强化学习任务。",
+      "method": "使用图表示提取电路结构信息，通过深度强化学习产生宏位置安排，并使用布局代价评价。",
+      "components": {
+        "representation": "—",
+        "connectivity": "图表示及图特征",
+        "allocation": "逐步确定宏位置",
+        "search": "深度强化学习",
+        "legalization": "—",
+        "evaluation": "布局代价；实际 PPA 须独立核查"
+      },
+      "evidence": [
+        {
+          "url": "https://www.nature.com/articles/s41586-021-03544-w",
+          "locator": "Nature 论文摘要",
+          "claim": "提出基于深度强化学习的图布局方法；题录与方法范围。",
+          "access": "abstract"
+        }
+      ],
+      "limits": [
+        "摘要级核查不支持跨基准声称优于人类或传统算法；另有作者更正和后续增补，使用原出版版本须注意。"
+      ],
+      "reviewDate": "2026-11-27",
+      "version": "题录及方法核查依据见来源"
+    },
+    {
+      "id": "MC082",
+      "year": 2022,
+      "title": "MaskPlace: Fast Chip Placement via Reinforced Visual Representation Learning",
+      "authors": "Yao Lai; Yao Mu; Ping Luo",
+      "venue": "NeurIPS 2022",
+      "doi": "10.52202/068431-1744",
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/97c8a8eb0e5231d107d0da51b79e09cb-Paper-Conference.pdf",
+      "access": "fulltext",
+      "short": "MaskPlace",
+      "role": "macro",
+      "scope": "基于视觉表示的宏布局强化学习。",
+      "method": "利用 position/view/wire masks 表达候选位置与线长代价，通过强化学习逐步放置宏；区分训练目标和测试阶段的拥塞处理。",
+      "components": {
+        "representation": "离散位置及 mask 状态（不是非切片拓扑编码）",
+        "connectivity": "—",
+        "allocation": "候选位置 mask",
+        "search": "强化学习顺序放置",
+        "legalization": "—",
+        "evaluation": "训练中的增量 HPWL 奖励；测试阶段拥塞检查"
+      },
+      "evidence": [
+        {
+          "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/97c8a8eb0e5231d107d0da51b79e09cb-Paper-Conference.pdf",
+          "locator": "§3，方法及训练/测试说明",
+          "claim": "位置/视图/线长 mask、增量线长奖励及测试时拥塞处理。",
+          "access": "fulltext"
+        }
+      ],
+      "limits": [
+        "测试阶段若候选均不满足拥塞阈值仍需选择位置，不能将拥塞检查描述为始终满足的硬约束。未独立复现实验。"
+      ],
+      "reviewDate": "2026-11-27",
+      "version": "题录及方法核查依据见来源"
+    },
+    {
+      "id": "MC103",
+      "year": 2024,
+      "title": "Reinforcement Learning Policy as Macro Regulator Rather than Macro Placer",
+      "authors": "Ke Xue; Ruo-Tong Chen; Xi Lin; Yunqi Shi; Shixiong Kai; Siyuan Xu; Chao Qian",
+      "venue": "NeurIPS 2024",
+      "doi": "10.52202/079017-4462",
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/fe224a60b878e79d5b3d79d7f113f76b-Paper-Conference.pdf",
+      "access": "fulltext",
+      "short": "Macro Regulator",
+      "role": "macro",
+      "scope": "将 RL 应用于已有宏布局的调整而非从空布局开始生成。",
+      "method": "以已有位置为输入，学习宏布局调节策略并评价规则性与线长；与从头放置的 RL 框架区分。",
+      "components": {
+        "representation": "—",
+        "connectivity": "—",
+        "allocation": "利用已有宏位置作为调节基础",
+        "search": "强化学习式布局调整",
+        "legalization": "—",
+        "evaluation": "HPWL 与规则性"
+      },
+      "evidence": [
+        {
+          "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/fe224a60b878e79d5b3d79d7f113f76b-Paper-Conference.pdf",
+          "locator": "§3，方法；Appendix B.1",
+          "claim": "调节已有布局的 RL 问题定义与实验/消融。",
+          "access": "fulltext"
+        }
+      ],
+      "limits": [
+        "使用已有布局不等同于一般的几何合法化；论文实验条件与其他布局器不自动对齐。"
+      ],
+      "reviewDate": "2026-11-27",
+      "version": "题录及方法核查依据见来源"
+    },
+    {
+      "id": "MC106",
+      "year": 2024,
+      "title": "Standard Cells Do Matter: Uncovering Hidden Connections for High-Quality Macro Placement",
+      "authors": "Xiaotian Zhao; Tianju Wang; Run Jiao; Xinfei Guo",
+      "venue": "DATE 2024",
+      "doi": null,
+      "url": "https://past.date-conference.com/proceedings-archive/2024/DATA/101_pdf_upload.pdf",
+      "access": "abstract",
+      "short": "Hidden Connections",
+      "role": "macro",
+      "scope": "发掘标准单元对宏布局的连接信息。",
+      "method": "从宏与标准单元簇之间的关系提取隐含连接，用于宏布局，而非只考虑直接的宏间连线。",
+      "components": {
+        "representation": "—",
+        "connectivity": "由标准单元簇相关连接构造额外宏布局连接信息",
+        "allocation": "—",
+        "search": "—",
+        "legalization": "—",
+        "evaluation": "—"
+      },
+      "evidence": [
+        {
+          "url": "https://past.date-conference.com/proceedings-archive/2024/DATA/101_pdf_upload.pdf",
+          "locator": "DATE 2024 论文首页摘要",
+          "claim": "利用标准单元相关隐含连接改善 macro placement。",
+          "access": "abstract"
+        }
+      ],
+      "limits": [
+        "未核查图构造公式及后续工作引用位置；不声称是其他 dataflow 方法的直接扩展。"
+      ],
+      "reviewDate": "2026-11-27",
+      "version": "题录及方法核查依据见来源"
+    },
+    {
+      "id": "MC109",
+      "year": 2025,
+      "title": "Benchmarking End-To-End Performance of AI-Based Chip Placement Algorithms",
+      "authors": "Zhihai Wang; Zijie Geng; Zhaojie Tu; Jie Wang; Yuxi Qian; Zhexuan Xu; Ziyan Liu; Siyuan Xu; Zhentao Tang; Shixiong Kai; Mingxuan Yuan; Jianye Hao; Bin Li; Feng Wu",
+      "venue": "NeurIPS 2025 Datasets and Benchmarks；arXiv 首发 2024",
+      "doi": "10.52202/085713-0673",
+      "url": "https://papers.neurips.cc/paper_files/paper/2025/file/1cba8502063fab9df252a63968691768-Paper-Datasets_and_Benchmarks_Track.pdf",
+      "access": "abstract",
+      "short": "ChiPBench",
+      "role": "assessment",
+      "scope": "AI 布局算法的端到端评估基准。",
+      "method": "对多个布局方法进行后端流程评估，以最终物理设计指标检验前端布局代理指标的局限。",
+      "components": {
+        "representation": "—",
+        "connectivity": "—",
+        "allocation": "—",
+        "search": "—",
+        "legalization": "—",
+        "evaluation": "真实设计的端到端流程与 PPA 指标"
+      },
+      "evidence": [
+        {
+          "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/1cba8502063fab9df252a63968691768-Abstract-Datasets_and_Benchmarks_Track.html",
+          "locator": "NeurIPS 2025 官方摘要",
+          "claim": "针对 AI chip placement 的端到端比较与基准。",
+          "access": "abstract"
+        }
+      ],
+      "limits": [
+        "基准论文不是宏布局器。具体工具版本、基准实例及结果需回查全文；不从摘要推出通用方法排名。"
+      ],
+      "reviewDate": "2026-11-27",
+      "version": "题录及方法核查依据见来源"
+    },
+    {
+      "short": "Timing-driven Hierarchical MP",
+      "title": "A Timing-Driven Hierarchical Macro Placement Framework for Large-Scale Complex IP Blocks",
+      "authors": "Wei Fu; Lixin Chen; Jinghui Zhou; Ziran Zhu",
+      "year": 2026,
+      "venue": "ASP-DAC 2026, pp.772–778",
+      "doi": "10.1109/ASP-DAC66049.2026.11420370",
+      "url": "https://ieeexplore.ieee.org/abstract/document/11420370",
+      "role": "macro",
+      "scope": "大规模复杂 IP block 的时序驱动分层宏布局及增量优化。",
+      "method": "采用 Hier-RTLMP 多层自动聚类机制；将簇建模为密度膨胀的 pseudo macro，解析求解顶层布局，利用数据流虚拟连接与 ILP 进行组内宏布局；标准单元布局后可执行受阵列约束的宏交换与 PGD 位移调整。",
+      "components": {
+        "representation": "pseudo macro 与 macro-group bounding box",
+        "connectivity": "多层聚类与 dataflow-based virtual connection",
+        "allocation": "解析顶层区域分配及组内 ILP",
+        "search": "解析优化、整数线性规划、增量交换及 PGD",
+        "legalization": "边界感知布局及合法化",
+        "evaluation": "时序 WNS / TNS；摘要报告与 Hier-RTLMP 在 15 个 ChiPBench 设计上的比较"
+      },
+      "evidence": [
+        {
+          "url": "https://ieeexplore.ieee.org/abstract/document/11420370",
+          "locator": "IEEE Abstract",
+          "claim": "明确采用 Hier-RTLMP 聚类引擎，描述全局与增量两阶段算法，并报告 WNS/TNS 对照。",
+          "access": "abstract"
+        },
+        {
+          "url": "https://doi.org/10.1109/ASP-DAC66049.2026.11420370",
+          "locator": "出版题录",
+          "claim": "ASP-DAC 2026 正式会议论文。",
+          "access": "metadata"
+        }
+      ],
+      "limits": [
+        "仅核对摘要，尚未核查 15 个设计的具体配置、统计口径、时序收敛及运行时间；不能认定全面优于 Hier-RTLMP。"
+      ],
+      "id": "TIMING26",
+      "reviewDate": "2026-11-27",
+      "version": "题录及方法核查依据见来源",
+      "access": "abstract"
     }
   ],
   "relations": [
@@ -2163,6 +2782,126 @@
       "locator": "模块介绍首段",
       "access": "documentation",
       "note": ""
+    },
+    {
+      "id": "REL32",
+      "from": "OTTEN1982",
+      "to": "SP1996",
+      "type": "cites",
+      "component": "切片布局研究背景",
+      "claim": "Sequence Pair 期刊论文在引言讨论既有切片布局研究，并引用 Otten。",
+      "url": "https://limsk.ece.gatech.edu/course/ece6133/papers/sequence-pair.pdf",
+      "locator": "§I p.1519；参考文献[4] p.1524",
+      "access": "fulltext",
+      "note": "引用不等同于采用切片结构。"
+    },
+    {
+      "id": "REL33",
+      "from": "NPE1986",
+      "to": "SP1996",
+      "type": "cites",
+      "component": "Polish expression 研究背景",
+      "claim": "Sequence Pair 期刊论文引用 Wong & Liu 的切片 floorplanning 工作。",
+      "url": "https://limsk.ece.gatech.edu/course/ece6133/papers/sequence-pair.pdf",
+      "locator": "§I p.1519；参考文献[5] p.1524",
+      "access": "fulltext",
+      "note": "表示方案的不同不是实验优劣。"
+    },
+    {
+      "id": "REL34",
+      "from": "ADYA2002",
+      "to": "MPT",
+      "type": "cites",
+      "component": "三阶段宏布局流程",
+      "claim": "MP-tree 原文讨论 Adya 与 Markov 的相关宏布局流程，说明基本流程相同而各阶段方法不同。",
+      "url": "https://cc.ee.ntu.edu.tw/~ywchang/Papers/tcad08-mptree.pdf",
+      "locator": "§I–II，Fig.2；Adya and Markov 相关讨论",
+      "access": "fulltext",
+      "note": "仅确认流程层面的联系与引用；不将其画成具体表示或优化算法继承。"
+    },
+    {
+      "id": "REL35",
+      "from": "NTUPLACE3",
+      "to": "EPLACEMS",
+      "type": "compares",
+      "component": "混合尺寸布局线长与运行时间",
+      "claim": "ePlace-MS 摘要报告：在 16 个 mixed-size benchmark 上，相对 NTUplace3 平均线长缩短 8.22%，运行时间相同。",
+      "url": "https://ieeexplore.ieee.org/document/7008518/",
+      "locator": "Abstract",
+      "access": "abstract",
+      "note": "作者报告的比较；未核对逐实例结果与完整配置。"
+    },
+    {
+      "id": "REL36",
+      "from": "EPLACEMS",
+      "to": "MC070",
+      "type": "cites",
+      "component": "宏合法化相关工作",
+      "claim": "TVLSI 2021 在引言列举 ePlace-MS 的宏合法化方法作为背景。",
+      "url": "https://doi.org/10.1109/TVLSI.2021.3057921",
+      "locator": "§I；参考文献[18]",
+      "access": "fulltext",
+      "note": ""
+    },
+    {
+      "id": "REL37",
+      "from": "MC058",
+      "to": "MC070",
+      "type": "cites",
+      "component": "规则排列与可布线性",
+      "claim": "TVLSI 2021 在关于宏排列规则性和 routability 的讨论中引用该工作。",
+      "url": "https://doi.org/10.1109/TVLSI.2021.3057921",
+      "locator": "§VII-D；参考文献[17]",
+      "access": "fulltext",
+      "note": ""
+    },
+    {
+      "id": "REL38",
+      "from": "MC050",
+      "to": "MC069",
+      "type": "cites",
+      "component": "布线预测相关文献",
+      "claim": "Nature 2021 论文的参考文献列出 RouteNet。",
+      "url": "https://www.nature.com/articles/s41586-021-03544-w",
+      "locator": "References [48]",
+      "access": "fulltext",
+      "note": "仅确认引用，不据此认定使用 RouteNet 作为其代价函数。"
+    },
+    {
+      "id": "REL39",
+      "from": "MC082",
+      "to": "MC103",
+      "type": "compares",
+      "component": "从头布局与已有布局调节",
+      "claim": "Macro Regulator 论文附录包含与 MaskPlace 相关的算法比较/消融。",
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/fe224a60b878e79d5b3d79d7f113f76b-Paper-Conference.pdf",
+      "locator": "Appendix B.1",
+      "access": "fulltext",
+      "note": "未核查不同实验设置之间的可比性，不据此给出性能排名。"
+    },
+    {
+      "id": "REL40",
+      "from": "MC097",
+      "to": "TIMING26",
+      "type": "adopts",
+      "component": "多层自动聚类",
+      "claim": "ASP-DAC 2026 官方摘要明确写明全局布局阶段使用 Hier-RTLMP 的 multilevel autoclustering engine。",
+      "url": "https://ieeexplore.ieee.org/abstract/document/11420370",
+      "locator": "Abstract，global placement 描述",
+      "access": "abstract",
+      "note": "只确认聚类组件采用，不代表沿用完整 Hier-RTLMP。"
+    },
+    {
+      "id": "REL41",
+      "from": "MC097",
+      "to": "TIMING26",
+      "type": "compares",
+      "component": "时序指标",
+      "claim": "官方摘要报告与 Hier-RTLMP 在 15 个 ChiPBench 基准设计上进行 WNS/TNS 对比，按是否需要增量优化分组。",
+      "url": "https://ieeexplore.ieee.org/abstract/document/11420370",
+      "locator": "Abstract，实验描述",
+      "access": "abstract",
+      "note": "未核查全表、绝对 slack、统计方式、工艺及运行条件。"
     }
   ],
   "pending": [
@@ -2211,17 +2950,6 @@
       "access": "pending"
     },
     {
-      "id": "MC058",
-      "year": 2019,
-      "title": "Regularity-aware routability-driven macro placement methodology for mixed-size circuits with obstacles",
-      "authors": "Jai-Ming Lin; You-Lun Deng; Szu-Ting Li; Bo-Heng Yu; Li-Yen Chang; Te-Wei Peng",
-      "venue": "IEEE TVLSI 27(1):57–68, January 2019 (online October 2018)",
-      "type": "论文",
-      "doi": "10.1109/TVLSI.2018.2867833",
-      "url": "https://researchoutput.ncku.edu.tw/en/publications/regularity-aware-routability-driven-macro-placement-methodology-f/",
-      "access": "pending"
-    },
-    {
       "id": "MC039",
       "year": 2017,
       "title": "A partition level floorplan method based on data flow analysis for physical design of digital IC",
@@ -2230,28 +2958,6 @@
       "type": "论文",
       "doi": "10.1109/ICAM.2017.8242141",
       "url": "https://ieeexplore.ieee.org/document/8242141/",
-      "access": "pending"
-    },
-    {
-      "id": "MC072",
-      "year": 2021,
-      "title": "Multi-level Dataflow-Driven Macro Placement Guided by RTL Structure and Analytical Methods",
-      "authors": "Alex Vidal-Obiols; Jordi Cortadella; Jordi Petit; Marc Galceran-Oms; Ferran Martorell",
-      "venue": "IEEE TCAD 40(12), pp. 2542–2555",
-      "type": "论文",
-      "doi": "10.1109/TCAD.2020.3047724",
-      "url": "https://upcommons.upc.edu/server/api/core/bitstreams/eb9a415b-1a97-441a-8c4a-9848f42282c0/content",
-      "access": "pending"
-    },
-    {
-      "id": "MC106",
-      "year": 2024,
-      "title": "Standard Cells Do Matter: Uncovering Hidden Connections for High-Quality Macro Placement",
-      "authors": "Xiaotian Zhao; Tianju Wang; Run Jiao; Xinfei Guo",
-      "venue": "DATE 2024",
-      "type": "论文",
-      "doi": null,
-      "url": "https://past.date-conference.com/proceedings-archive/2024/DATA/101_pdf_upload.pdf",
       "access": "pending"
     },
     {
@@ -2321,17 +3027,6 @@
       "access": "pending"
     },
     {
-      "id": "MC050",
-      "year": 2018,
-      "title": "RouteNet: Routability Prediction for Mixed-size Designs using Convolutional Neural Network",
-      "authors": "Zhiyao Xie; Yu-Hung Huang; Guan-Qi Fang; Haoxing Ren; Shao-Yun Fang; Yiran Chen; Jiang Hu",
-      "venue": "ICCAD 2018",
-      "type": "论文",
-      "doi": "10.1145/3240765.3240843",
-      "url": "https://research.nvidia.com/publication/2018-11_routenet-routability-prediction-mixed-size-designs-using-convolutional-neural",
-      "access": "pending"
-    },
-    {
       "id": "MC057",
       "year": 2019,
       "title": "Machine Learning Techniques for Building and Evaluation of Routability-driven Macro Placement",
@@ -2340,17 +3035,6 @@
       "type": "论文",
       "doi": "10.1109/ICCE-TW46550.2019.8991813",
       "url": "https://ieeexplore.ieee.org/document/8991813/",
-      "access": "pending"
-    },
-    {
-      "id": "MC060",
-      "year": 2019,
-      "title": "Routability-Driven Macro Placement with Embedded CNN-Based Prediction Model",
-      "authors": "Yu-Hung Huang; Zhiyao Xie; Guan-Qi Fang; Tao-Chun Yu; Haoxing Ren; Shao-Yun Fang; Yiran Chen; Jiang Hu",
-      "venue": "DATE 2019, pp. 180–185",
-      "type": "论文",
-      "doi": "10.23919/DATE.2019.8715126",
-      "url": "https://zhiyaoxie.com/files/DATE19_Macro.pdf",
       "access": "pending"
     },
     {
@@ -2398,17 +3082,6 @@
       "access": "pending"
     },
     {
-      "id": "MC103",
-      "year": 2024,
-      "title": "Reinforcement Learning Policy as Macro Regulator Rather than Macro Placer",
-      "authors": "Ke Xue; Ruo-Tong Chen; Xi Lin; Yunqi Shi; Shixiong Kai; Siyuan Xu; Chao Qian",
-      "venue": "NeurIPS 2024",
-      "type": "论文",
-      "doi": null,
-      "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/fe224a60b878e79d5b3d79d7f113f76b-Paper-Conference.pdf",
-      "access": "pending"
-    },
-    {
       "id": "MC129",
       "year": 2026,
       "title": "Expertise Can Be Helpful for Reinforcement Learning-based Macro Placement",
@@ -2442,17 +3115,6 @@
       "access": "pending"
     },
     {
-      "id": "MC069",
-      "year": 2021,
-      "title": "A graph placement methodology for fast chip design",
-      "authors": "Azalia Mirhoseini et al.",
-      "venue": "Nature 594, pp. 207–212",
-      "type": "论文",
-      "doi": "10.1038/s41586-021-03544-w",
-      "url": "https://www.nature.com/articles/s41586-021-03544-w",
-      "access": "pending"
-    },
-    {
       "id": "MC073",
       "year": 2021,
       "title": "On Joint Learning for Solving Placement and Routing in Chip Design",
@@ -2461,17 +3123,6 @@
       "type": "论文",
       "doi": null,
       "url": "https://proceedings.neurips.cc/paper/2021/hash/898aef0932f6aaecda27aba8e9903991-Abstract.html",
-      "access": "pending"
-    },
-    {
-      "id": "MC082",
-      "year": 2022,
-      "title": "MaskPlace: Fast Chip Placement via Reinforced Visual Representation Learning",
-      "authors": "Yao Lai; Yao Mu; Ping Luo",
-      "venue": "NeurIPS 2022",
-      "type": "论文",
-      "doi": null,
-      "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/97c8a8eb0e5231d107d0da51b79e09cb-Paper-Conference.pdf",
       "access": "pending"
     },
     {
@@ -2868,17 +3519,6 @@
       "type": "背景",
       "doi": "10.48550/arXiv.2411.10053",
       "url": "https://arxiv.org/abs/2411.10053",
-      "access": "pending"
-    },
-    {
-      "id": "MC109",
-      "year": 2025,
-      "title": "Benchmarking End-To-End Performance of AI-Based Chip Placement Algorithms",
-      "authors": "Zhihai Wang; Zijie Geng; Zhaojie Tu; Jie Wang; Yuxi Qian; Zhexuan Xu; Ziyan Liu; Siyuan Xu; Zhentao Tang; Shixiong Kai; Mingxuan Yuan; Jianye Hao; Bin Li; Feng Wu",
-      "venue": "NeurIPS 2025 Datasets and Benchmarks；arXiv 首发 2024",
-      "type": "基准",
-      "doi": null,
-      "url": "https://papers.neurips.cc/paper_files/paper/2025/file/1cba8502063fab9df252a63968691768-Paper-Datasets_and_Benchmarks_Track.pdf",
       "access": "pending"
     },
     {
@@ -3619,6 +4259,10 @@
   },
   "revision": [
     {
+      "title": "补齐技术史与三条现代研究方向",
+      "detail": "补录切片式布局、NPE、O-tree、2002/2004 混合尺寸布局流程与 ePlace-MS；重新核查部分规则性、数据流、学习式决策、拥塞评价和端到端基准文献，并加入 2026 年时序驱动分层布局工作。图表列示阅读方向而非未经验证的技术传承；原文与摘要证据明确区分。"
+    },
+    {
       "title": "重建分类单位",
       "detail": "撤销按机构、团队、优化器和评价器混排的 11 个家族。以主任务组织文献，以六类方法组件作横向分析；RUDY 归入需求估计，空间表示独立说明。"
     },
@@ -3651,23 +4295,36 @@
         "MPT",
         "MC022",
         "MC032",
+        "MC058",
+        "MC063",
+        "MC072",
         "MC070",
         "MC083",
         "MC097",
+        "MC106",
         "MC086",
         "MC099",
         "MC118",
+        "MC060",
+        "MC069",
+        "MC082",
+        "MC103",
+        "MC122",
         "MCTS25",
-        "MC123"
+        "MC123",
+        "TIMING26"
       ]
     },
     {
       "id": "foundation",
       "label": "几何表示",
       "papers": [
+        "OTTEN1982",
         "CS1984",
+        "NPE1986",
         "SP1995",
         "SP1996",
+        "OTREE1999",
         "BST2000",
         "TCG2001",
         "CSQ2003"
@@ -3681,8 +4338,11 @@
         "NCTUGR",
         "MC008",
         "MC024",
+        "MC050",
+        "MC060",
         "MC090",
         "MC105",
+        "MC109",
         "MC138"
       ]
     },
@@ -3690,7 +4350,10 @@
       "id": "global",
       "label": "解析布局与原型",
       "papers": [
+        "ADYA2002",
+        "CAPO2004",
         "NTUPLACE3",
+        "EPLACEMS",
         "MC061",
         "MC059",
         "DREAMPLACE19",
@@ -3700,7 +4363,203 @@
     }
   ],
   "defaults": {
-    "graph": "MC070",
+    "graph": "MPT",
     "matrix": "macro"
-  }
+  },
+  "timeline": [
+    {
+      "title": "基础表示与早期布局流程",
+      "range": "1982–2018",
+      "note": "两行分别记录几何基础和面向实际混合尺寸电路的布局流程。前者不是后者的同义词。时间区间按实际发表年份分桶，节点标注具体年份。",
+      "periods": [
+        [
+          1982,
+          1989
+        ],
+        [
+          1990,
+          1999
+        ],
+        [
+          2000,
+          2004
+        ],
+        [
+          2005,
+          2009
+        ],
+        [
+          2010,
+          2018
+        ]
+      ],
+      "lanes": [
+        {
+          "label": "几何表示 / Floorplanning",
+          "ids": [
+            "OTTEN1982",
+            "CS1984",
+            "NPE1986",
+            "SP1995",
+            "SP1996",
+            "OTREE1999",
+            "BST2000",
+            "TCG2001",
+            "CSQ2003"
+          ]
+        },
+        {
+          "label": "混合尺寸布局与宏布局",
+          "ids": [
+            "ADYA2002",
+            "CAPO2004",
+            "MPT2007",
+            "MPT",
+            "NTUPLACE3",
+            "MC022",
+            "EPLACEMS",
+            "MC032"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "现代 Macro Placement 的三条交汇主线",
+      "range": "2019–2026",
+      "note": "按突出的方法组件组织阅读方向，而非将论文划为互斥流派。跨方向工作可以在不同方法表中再次出现。只有明确采用或扩展关系才进入技术继承图。",
+      "periods": [
+        [
+          2019,
+          2019
+        ],
+        [
+          2020,
+          2020
+        ],
+        [
+          2021,
+          2021
+        ],
+        [
+          2022,
+          2022
+        ],
+        [
+          2023,
+          2023
+        ],
+        [
+          2024,
+          2024
+        ],
+        [
+          2025,
+          2025
+        ],
+        [
+          2026,
+          2026
+        ]
+      ],
+      "lanes": [
+        {
+          "label": "数据流与层次化",
+          "ids": [
+            "MC058",
+            "MC061",
+            "MC063",
+            "MC072",
+            "MC070",
+            "MC083",
+            "MC097",
+            "MC106",
+            "TIMING26"
+          ]
+        },
+        {
+          "label": "解析布局与增量优化",
+          "ids": [
+            "MC059",
+            "DREAMPLACE19",
+            "MC071",
+            "MC086",
+            "MC099",
+            "MC118"
+          ]
+        },
+        {
+          "label": "离散搜索与学习式决策",
+          "ids": [
+            "MC051",
+            "MC060",
+            "MC069",
+            "MC082",
+            "MC103",
+            "MC122",
+            "MCTS25",
+            "MC123"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "拥塞模型、布线与评估",
+      "range": "2007–2026",
+      "note": "这是跨布局流程的支撑工作：预测模型不是布局编码，路由器也不是拥塞代理。布局算法可采用这些组件，需以具体论文的证据为准。",
+      "periods": [
+        [
+          2007,
+          2014
+        ],
+        [
+          2015,
+          2018
+        ],
+        [
+          2019,
+          2022
+        ],
+        [
+          2023,
+          2024
+        ],
+        [
+          2025,
+          2026
+        ]
+      ],
+      "lanes": [
+        {
+          "label": "物理需求与可布线性估计",
+          "ids": [
+            "RUDY",
+            "MC008",
+            "MC024",
+            "MC086"
+          ]
+        },
+        {
+          "label": "学习式评价及其应用",
+          "ids": [
+            "MC050",
+            "MC060",
+            "MC090",
+            "MC105"
+          ]
+        },
+        {
+          "label": "全局布线方法",
+          "ids": [
+            "NCTUGR"
+          ]
+        },
+        {
+          "label": "端到端评估",
+          "ids": [
+            "MC109"
+          ]
+        }
+      ]
+    }
+  ]
 }

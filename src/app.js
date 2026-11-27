@@ -17,6 +17,22 @@ let state={matrix:A.defaults.matrix,graph:A.defaults.graph,mode:'reviewed',page:
 let lastFocus=null;
 const pageSize=12;
 const readButton=id=>`<button class="paper-read ${readState[id]?'is-read':''}" data-read="${esc(id)}" aria-pressed="${!!readState[id]}">${readState[id]?'✓ 已阅读':'标记已读'}</button>`;
+function renderTimeline(){
+ const container=$('history-atlas');
+ if(!container)return;
+ container.innerHTML=A.timeline.map(group=>{
+   const nodes=new Set(group.lanes.flatMap(l=>l.ids));
+   const periodTitle=([a,b])=>a===b?String(a):a+'–'+b;
+   const headers='<th scope="col" class="history-track-heading">研究方向</th>'+group.periods.map(p=>'<th scope="col">'+esc(periodTitle(p))+'</th>').join('');
+   const rows=group.lanes.map(lane=>'<tr><th scope="row" class="history-track">'+esc(lane.label)+'</th>'+group.periods.map(([from,to])=>{
+     const ps=lane.ids.map(id=>P[id]).filter(p=>p.year>=from&&p.year<=to).sort((a,b)=>a.year-b.year||a.short.localeCompare(b.short));
+     return '<td>'+ps.map(p=>'<button class="history-paper" data-open="'+esc(p.id)+'"><span class="history-paper-year">'+esc(p.year)+'</span><strong>'+esc(p.short)+'</strong><small>'+esc(p.access==='abstract'?'摘要核查':p.access==='fulltext'?'原文核查':accessNames[p.access])+'</small></button>').join('')+'</td>';
+   }).join('')+'</tr>').join('');
+   const edges=A.relations.filter(r=>nodes.has(r.from)&&nodes.has(r.to)&&(r.type==='adopts'||r.type==='extends'));
+   const links=edges.length?'<details class="history-evidence"><summary>本区段已核实的方法采用或版本扩展（'+edges.length+' 条）</summary><div>'+edges.map(r=>'<div class="history-edge">'+paperButton(r.from)+'<span class="history-arrow"> → </span>'+paperButton(r.to)+'<span class="history-component">'+esc(r.component)+' · '+esc(typeNames[r.type])+'</span><a href="'+safeURL(r.url)+'" target="_blank" rel="noopener noreferrer">'+esc(r.locator)+'</a></div>').join('')+'</div></details>':'';
+   return '<article class="history-block"><div class="history-heading"><div><div class="eyebrow">'+esc(group.range)+'</div><h3>'+esc(group.title)+'</h3></div></div><p class="history-note">'+esc(group.note)+'</p><div class="history-scroll" tabindex="0" role="region" aria-label="'+esc(group.title)+' 年代对照表"><table class="history-table" style="min-width:'+String(155+group.periods.length*142)+'px"><thead><tr>'+headers+'</tr></thead><tbody>'+rows+'</tbody></table></div>'+links+'</article>';
+ }).join('');
+}
 function initial(){
  $('review-date').textContent=A.meta.reviewDate;
  const full=A.papers.filter(p=>p.access==='fulltext').length;
@@ -29,7 +45,7 @@ function initial(){
  $('role-filter').insertAdjacentHTML('beforeend',Object.entries(A.roles).map(([k,v])=>`<option value="${esc(k)}">${esc(v)}</option>`).join(''));
  $('count-reviewed').textContent=A.papers.length;$('count-pending').textContent=A.pending.length;
  $('revision-list').innerHTML=A.revision.map((r,i)=>`<article class="revision-item"><span>${String(i+1).padStart(2,'0')}</span><div><h3>${esc(r.title)}</h3><p>${esc(r.detail)}</p></div></article>`).join('');
- renderMatrix();renderGraph();renderRelations();renderComparison();renderLibrary();
+ renderTimeline();renderMatrix();renderGraph();renderRelations();renderComparison();renderLibrary();
 }
 function renderMatrix(){
  const g=A.matrixGroups.find(g=>g.id===state.matrix);
